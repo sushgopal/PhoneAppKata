@@ -1,19 +1,25 @@
 package com.phoneappkata.leastresistancepath;
 
-import java.util.Collections;
-import java.util.List;
+import com.google.common.collect.Maps;
+
+import java.util.Map;
+import java.util.Set;
 
 import static java.lang.String.valueOf;
 
 public class LeastResistancePathFinder {
+
+    private NeighborCells neighborCells = new NeighborCells();
+
+    private Map<String, LeastResistancePath> visitedNodeMap = Maps.newHashMap();
 
     public LeastResistancePath find(int[][] grid) {
 
         LeastResistancePath result = null;
 
         for(int i=0;i<grid.length;i++) {
-            LeastResistancePath temp = findAt(i, 0, grid);
-            if(result == null || temp.getResistance() < result.getResistance()) {
+            LeastResistancePath temp = findAt(i, 0, grid, null);
+            if(result == null || (temp.getResistance() < result.getResistance())) {
                 result = temp;
             }
         }
@@ -21,21 +27,29 @@ public class LeastResistancePathFinder {
         return result;
     }
 
-    LeastResistancePath findAt(int row, int column, int[][] grid) {
-        List<Cell> neighborCells = findPossibleNeighborCellsToFlow(row, column);
+    LeastResistancePath findAt(int row, int column, int[][] grid, LeastResistancePath result) {
+        Set<Cell> neighborCells = findPossibleNeighborCellsToFlow(row, column, grid);
 
-        LeastResistancePath result = new LeastResistancePath(grid[row][column], valueOf(row));
+        if(neighborCells.isEmpty()) {
+            LeastResistancePath leaf = new LeastResistancePath(grid[row][column], valueOf(row+1));
+            visitedNodeMap.put(""+row+column,  leaf);
+            return leaf;
+        }
+
         for(Cell cell: neighborCells) {
-            LeastResistancePath temp = findAt(cell.getRow(), cell.getColumn(), grid);
-            if(temp.getResistance() < result.getResistance()) {
+            LeastResistancePath temp = visitedNodeMap.get(cell.getRow()+""+cell.getColumn()) == null ?
+                                        findAt(cell.getRow(), cell.getColumn(), grid, result):
+                                        visitedNodeMap.get(cell.getRow()+""+cell.getColumn());
+            if( result == null || (temp.getResistance() < result.getResistance())) {
                 result = temp;
             }
         }
-
+        result = new LeastResistancePath(grid[row][column]+result.getResistance(), valueOf(row+1)+","+result.getPath());
+        visitedNodeMap.put(""+row+column,  result);
         return result;
     }
 
-    List<Cell> findPossibleNeighborCellsToFlow(int row, int column) {
-        return Collections.emptyList();
+    private Set<Cell> findPossibleNeighborCellsToFlow(int row, int column, int[][] grid) {
+        return neighborCells.findFor(new Cell(row, column), grid);
     }
 }

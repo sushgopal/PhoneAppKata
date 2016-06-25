@@ -16,4 +16,12 @@ public class LeastResistancePath {
     public String getPath() {
         return path;
     }
+
+    @Override
+    public String toString() {
+        return "LeastResistancePath{" +
+                "resistance=" + resistance +
+                ", path='" + path + '\'' +
+                '}';
+    }
 }
