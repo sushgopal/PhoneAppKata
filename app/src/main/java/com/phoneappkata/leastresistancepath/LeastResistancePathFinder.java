@@ -24,7 +24,7 @@ public class LeastResistancePathFinder {
     }
 
     ResistancePathFinder getFinder(Grid grid) {
-        return new ResistancePathFinder(grid);
+        return new ResistancePathFinder().setGrid(grid);
     }
 
     Grid getGrid(int[][] gridArray) {

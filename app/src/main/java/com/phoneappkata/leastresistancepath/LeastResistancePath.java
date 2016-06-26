@@ -1,7 +1,7 @@
 package com.phoneappkata.leastresistancepath;
 
 public class LeastResistancePath {
-    private static LeastResistancePath NO_NEIGHBOR = null;
+    static LeastResistancePath NO_NEIGHBOR = null;
 
     private static int MAX_RESISTANCE_TO_FLOW = 50;
 
@@ -10,12 +10,6 @@ public class LeastResistancePath {
     private int resistance;
     private String path;
     private boolean canFlow;
-
-    public LeastResistancePath(int resistance, String path, boolean canFlow) {
-        this.resistance = resistance;
-        this.path = path;
-        this.canFlow = canFlow;
-    }
 
     public LeastResistancePath(Grid grid, int row, int column) {
         this(grid, row, column, NO_NEIGHBOR);
