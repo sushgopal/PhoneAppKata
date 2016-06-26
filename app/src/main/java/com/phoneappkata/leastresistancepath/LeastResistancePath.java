@@ -3,10 +3,12 @@ package com.phoneappkata.leastresistancepath;
 public class LeastResistancePath {
     private int resistance;
     private String path;
+    private boolean canFlow;
 
-    public LeastResistancePath(int resistance, String path) {
+    public LeastResistancePath(int resistance, String path, boolean canFlow) {
         this.resistance = resistance;
         this.path = path;
+        this.canFlow = canFlow;
     }
 
     public int getResistance() {
@@ -17,11 +19,7 @@ public class LeastResistancePath {
         return path;
     }
 
-    @Override
-    public String toString() {
-        return "LeastResistancePath{" +
-                "resistance=" + resistance +
-                ", path='" + path + '\'' +
-                '}';
+    public boolean canFlow() {
+        return canFlow;
     }
 }
