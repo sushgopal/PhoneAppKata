@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_grid_input"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.phoneappkata.GridInputActivity"
+    tools:showIn="@layout/activity_grid_input">
+
+</android.support.constraint.ConstraintLayout>

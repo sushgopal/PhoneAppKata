@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">PhoneAppKata</string>
+    <string name="app_name">Least Resistance Path Finder</string>
+    <string name="title_activity_grid_input">GridInputActivity</string>
 </resources>

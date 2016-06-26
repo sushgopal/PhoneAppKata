@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_result"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.phoneappkata.ResultActivity"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:textAlignment="center">
+
+
+    <TextView
+        android:text="did flow through"
+        android:id="@+id/did_flow_through"
+        android:textSize="36sp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:text="least resistance"
+        android:id="@+id/least_resistance"
+        android:textSize="36sp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:text="least resistance path"
+        android:id="@+id/least_resistance_path"
+        android:textSize="36sp"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+</LinearLayout>
