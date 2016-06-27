@@ -27,8 +27,8 @@ public class GridInputActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        rowCount = intent.getIntExtra(MainActivity.NUMBER_OF_ROWS, 1);
-        columnCount = intent.getIntExtra(MainActivity.NUMBER_OF_COLUMNS, 5);
+//        rowCount = intent.getIntExtra(MainActivity.NUMBER_OF_ROWS, 1);
+//        columnCount = intent.getIntExtra(MainActivity.NUMBER_OF_COLUMNS, 5);
 
         GridView grid=(GridView) findViewById(R.id.input_grid);
         grid.setNumColumns(columnCount);

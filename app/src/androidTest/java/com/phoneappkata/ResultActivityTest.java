@@ -2,8 +2,6 @@ package com.phoneappkata;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -12,6 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -65,11 +64,11 @@ public class ResultActivityTest {
     }
 
     private ActivityTestRule<ResultActivity> createActivityToTest() {
-        return new ActivityTestRule<ResultActivity>(ResultActivity.class, initialTouchMode, launchActivity);
+        return new ActivityTestRule<>(ResultActivity.class, initialTouchMode, launchActivity);
     }
 
     private void stubIntentWithResult() {
-        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Context context = getInstrumentation().getTargetContext();
         intent = new Intent(context, ResultActivity.class);
 
         intent.putExtra(context.getString(least_resistance_result), leastResistance);

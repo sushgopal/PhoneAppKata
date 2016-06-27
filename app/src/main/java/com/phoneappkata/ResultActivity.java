@@ -2,7 +2,6 @@ package com.phoneappkata;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.widget.TextView;
 
 import static android.view.Gravity.CENTER;
