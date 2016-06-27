@@ -2,36 +2,75 @@ package com.phoneappkata.leastresistancepath;
 
 import com.google.common.collect.Lists;
 
+import java.util.List;
+import java.util.Set;
+
 public class LeastResistancePathFinder {
 
     private Grid grid;
 
-    private ResistancePathFinder finder;
+//    public ResistancePathFinder(Grid grid) {
+//        this.grid = grid;
+//    }
 
-    public ResistancePath find(int[][] gridArray) {
-        grid = getGrid(gridArray);
-        finder = getFinder(grid);
+    public ResistancePath find(Grid gridArray) {
+        this.grid = gridArray;
 
-        ResistancePath result = null;
+        return findAt(grid.getRootRow(), grid.getRootColumn(), new ResistancePath());
+    }
 
-        for(int i=0;i<grid.numberOfRows();i++) {
-            ResistancePath x = new ResistancePath(grid.valueAt(i, 0), Lists.newArrayList(i+1), true);
-            ResistancePath temp = finder.findAt(i, 0, x);
+    ResistancePath findAt(int row, int column, ResistancePath currentPath) {
+        Set<Integer> neighborRows = grid.getNeighborRowsFor(row, column);
+        ResistancePath leastResistancePath;
+        if(exists(neighborRows)) {
+            leastResistancePath = findLeastResistanceNeighbor(column, neighborRows, currentPath);
+        }
+        else {
+            leastResistancePath = currentPath;
+        }
+        return leastResistancePath;
+    }
 
-            if(result == null || (temp.getResistance() < result.getResistance())) {
-                result = temp;
+    private ResistancePath findLeastResistanceNeighbor(int column, Set<Integer> neighborRows, ResistancePath currentPath) {
+        ResistancePath leastResistanceNeighborPath = null;
+        int neighborColumn = next(column);
+
+        for (Integer neighborRow : neighborRows) {
+            ResistancePath currentNeighborPath;
+
+            if(currentPath.isNeighborBlockingFlow(grid, neighborRow, neighborColumn)) {
+                currentNeighborPath = currentPath.buildBlockedPath();//new ResistancePath(currentPath.getResistance(), currentPath.getPath(), false);
+            } else {
+                currentNeighborPath = findAt(neighborRow, neighborColumn, currentPath.buildPathWithNeighbor(grid, neighborRow, neighborColumn));
+            }
+
+            if(isCurrentResistanceLessThanLeastResistance(currentNeighborPath, leastResistanceNeighborPath)) {
+                leastResistanceNeighborPath = currentNeighborPath;
             }
         }
 
-        return result;
+        return leastResistanceNeighborPath;
     }
 
-    ResistancePathFinder getFinder(Grid grid) {
-        return new ResistancePathFinder().setGrid(grid);
+    private boolean isCurrentResistanceLessThanLeastResistance(ResistancePath currentPath, ResistancePath resistancePath) {
+        return resistancePath == null || (currentIsLessThanLeast(currentPath, resistancePath) && resistancePath.canFlow());
     }
 
-    Grid getGrid(int[][] gridArray) {
-        return new Grid(gridArray);
+    private boolean currentIsLessThanLeast(ResistancePath currentPath, ResistancePath resistancePath) {
+        return currentPath.getResistance() < resistancePath.getResistance();
+    }
+
+    private int next(int column) {
+        return column + 1;
+    }
+
+    private boolean exists(Set<Integer> collection) {
+        return !collection.isEmpty();
+    }
+
+    public LeastResistancePathFinder setGrid(Grid grid) {
+        this.grid = grid;
+        return this;
     }
 
 }

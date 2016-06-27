@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.phoneappkata.leastresistancepath.ResistancePath;
-import com.phoneappkata.leastresistancepath.LeastResistancePathFinder;
 
 public class GridInputActivity extends AppCompatActivity {
 
@@ -46,10 +45,11 @@ public class GridInputActivity extends AppCompatActivity {
                 gridArray[i][j] = intValue;
             }
         }
-        LeastResistancePathFinder finder = new LeastResistancePathFinder();
-        ResistancePath result = finder.find(gridArray);
+//        LeastResistancePathFinder finder = new LeastResistancePathFinder();
+//        ResistancePath result = finder.find(gridArray);
 
         Intent intent = new Intent(this, ResultActivity.class);
+        ResistancePath result = null;
         intent.putExtra("canflow", result.canFlow() ? "YES": "NO");
         intent.putExtra("leastresistance", Integer.toString(result.getResistance()));
         intent.putExtra("leastresistancepath", result.getPath().toString());

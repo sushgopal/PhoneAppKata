@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ComponentTests {
-    ResistancePathFinder finder = new ResistancePathFinder();
+    LeastResistancePathFinder finder = new LeastResistancePathFinder();
 
     @Test
     public void testCase1() {

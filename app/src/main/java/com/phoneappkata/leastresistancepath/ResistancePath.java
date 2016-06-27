@@ -1,12 +1,13 @@
 package com.phoneappkata.leastresistancepath;
 
+import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
 public class ResistancePath {
-    static ResistancePath NO_NEIGHBOR = null;
-
     private static int MAX_RESISTANCE_TO_FLOW = 50;
 
     private int resistance;
@@ -19,21 +20,9 @@ public class ResistancePath {
         this.canFlow = canFlow;
     }
 
-    public ResistancePath(Grid grid, int row, int column) {
-        this(grid, row, column, NO_NEIGHBOR);
-    }
-
-    public ResistancePath(Grid grid, int row, int column, ResistancePath leastResistanceNeighbor) {
-        int totalResistance = getTotalResistance(grid, row, column, leastResistanceNeighbor);
-
-        this.canFlow = canFlow(totalResistance);
-        this.path = getPath(row, leastResistanceNeighbor);
-        this.resistance = getResistance(grid, row, column, totalResistance);
-    }
-
     public ResistancePath() {
         this.resistance = 0;
-        this.canFlow = true;
+        this.canFlow = false;
         this.path = newArrayList();
     }
 
@@ -41,23 +30,7 @@ public class ResistancePath {
         return resistance;
     }
 
-    private int getResistance(Grid grid, int row, int column, int totalResistance) {
-        return canFlow ? totalResistance : grid.valueAt(row, column);
-    }
-
     public List<Integer> getPath() {
-        return path;
-    }
-
-    private Integer getPath(int row) {
-        return next(row);
-    }
-
-    private List<Integer> getPath(int row, ResistancePath leastResistanceNeighbor) {
-        List<Integer> path = newArrayList(getPath(row));
-        if(leastResistanceNeighbor != null && canFlow) {
-            path.addAll(leastResistanceNeighbor.getPath());
-        }
         return path;
     }
 
@@ -65,20 +38,19 @@ public class ResistancePath {
         return canFlow;
     }
 
-    private boolean canFlow(int resistance) {
-        return resistance <= MAX_RESISTANCE_TO_FLOW;
+    public boolean isNeighborBlockingFlow(Grid grid, int row, int column) {
+        return (resistance + grid.valueAt(row, column)) > MAX_RESISTANCE_TO_FLOW;
     }
 
-    private int next(int row) {
-        return row + 1;
+    public ResistancePath buildPathWithNeighbor(Grid grid, int row, int column) {
+        ArrayList<Integer> list = Lists.newArrayList();
+        list.addAll(getPath());
+        list.add(row+1);
+        return new ResistancePath(getResistance()+grid.valueAt(row, column), list, true);
     }
 
-    private int getTotalResistance(Grid grid, int row, int column, ResistancePath leastResistanceNeighbor) {
-        int totalResistance = grid.valueAt(row, column);
-        if(leastResistanceNeighbor != null) {
-            totalResistance += leastResistanceNeighbor.getResistance();
-        }
-        return totalResistance;
+    public ResistancePath buildBlockedPath() {
+        return new ResistancePath(getResistance(), getPath(), false);
     }
 
 }
