@@ -64,5 +64,4 @@ public class ResistancePath {
     private int total(int neighborResistance) {
         return resistance + neighborResistance;
     }
-
 }
