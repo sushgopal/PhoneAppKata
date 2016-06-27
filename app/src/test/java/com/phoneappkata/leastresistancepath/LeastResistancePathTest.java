@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 public class LeastResistancePathTest {
 
-    private LeastResistancePath leastResistancePath;
+    private ResistancePath resistancePath;
 
     private int rowNumber = 0;
 
@@ -39,7 +38,7 @@ public class LeastResistancePathTest {
     private Grid grid;
 
     @Mock
-    private LeastResistancePath leastResistanceNeighbor;
+    private ResistancePath leastResistanceNeighbor;
 
     @Before
     public void setup() {
@@ -51,21 +50,21 @@ public class LeastResistancePathTest {
     public void shouldSetResistanceToGridValue() {
         createLeastResistancePath();
 
-        assertThat(leastResistancePath.getResistance(), is(resistance));
+        assertThat(resistancePath.getResistance(), is(resistance));
     }
 
     @Test
     public void shouldAddRowToPath() {
         createLeastResistancePath();
 
-        assertThat(leastResistancePath.getPath(), contains(path));
+        assertThat(resistancePath.getPath(), contains(path));
     }
 
     @Test
     public void shouldSetCanFlowToTrueIfResistanceIsLessThanMaxResistanceToFlow() {
         createLeastResistancePath();
 
-        assertThat(leastResistancePath.canFlow(), is(true));
+        assertThat(resistancePath.canFlow(), is(true));
     }
 
     @Test
@@ -73,7 +72,7 @@ public class LeastResistancePathTest {
         stubGridWith(maximumResistanceToFlow);
         createLeastResistancePath();
 
-        assertThat(leastResistancePath.canFlow(), is(true));
+        assertThat(resistancePath.canFlow(), is(true));
     }
 
     @Test
@@ -81,7 +80,7 @@ public class LeastResistancePathTest {
         stubGridWith(maximumResistanceToFlow+1);
         createLeastResistancePath();
 
-        assertThat(leastResistancePath.canFlow(), is(false));
+        assertThat(resistancePath.canFlow(), is(false));
     }
 
     @Test
@@ -89,7 +88,7 @@ public class LeastResistancePathTest {
         stubLeastResistanceNeighborWith(neighborResistance, neighborPath);
         createLeastResistancePathWithNeighbor();
 
-        assertThat(leastResistancePath.getResistance(), is(resistance+neighborResistance));
+        assertThat(resistancePath.getResistance(), is(resistance+neighborResistance));
     }
 
     @Test
@@ -97,7 +96,7 @@ public class LeastResistancePathTest {
         stubLeastResistanceNeighborWith(largerNeighborResistance, neighborPath);
         createLeastResistancePathWithNeighbor();
 
-        assertThat(leastResistancePath.getResistance(), is(resistance));
+        assertThat(resistancePath.getResistance(), is(resistance));
     }
 
     @Test
@@ -105,7 +104,7 @@ public class LeastResistancePathTest {
         stubLeastResistanceNeighborWith(neighborResistance, neighborPath);
         createLeastResistancePathWithNeighbor();
 
-        assertThat(leastResistancePath.getPath(), contains(path, neighborPath.get(0), neighborPath.get(1)));
+        assertThat(resistancePath.getPath(), contains(path, neighborPath.get(0), neighborPath.get(1)));
     }
 
     @Test
@@ -113,7 +112,7 @@ public class LeastResistancePathTest {
         stubLeastResistanceNeighborWith(largerNeighborResistance, neighborPath);
         createLeastResistancePathWithNeighbor();
 
-        assertThat(leastResistancePath.getPath(), contains(path));
+        assertThat(resistancePath.getPath(), contains(path));
     }
 
     @Test
@@ -121,7 +120,7 @@ public class LeastResistancePathTest {
         stubLeastResistanceNeighborWith(neighborResistance, neighborPath);
         createLeastResistancePathWithNeighbor();
 
-        assertThat(leastResistancePath.canFlow(), is(true));
+        assertThat(resistancePath.canFlow(), is(true));
     }
 
     @Test
@@ -129,7 +128,7 @@ public class LeastResistancePathTest {
         stubLeastResistanceNeighborWith(largerNeighborResistance, neighborPath);
         createLeastResistancePathWithNeighbor();
 
-        assertThat(leastResistancePath.canFlow(), is(false));
+        assertThat(resistancePath.canFlow(), is(false));
     }
 
     private void stubLeastResistanceNeighborWith(int resistance, List<Integer> path) {
@@ -138,11 +137,11 @@ public class LeastResistancePathTest {
     }
 
     private void createLeastResistancePathWithNeighbor() {
-        leastResistancePath = new LeastResistancePath(grid, rowNumber, columnNumber, leastResistanceNeighbor);
+        resistancePath = new ResistancePath(grid, rowNumber, columnNumber, leastResistanceNeighbor);
     }
 
     private void createLeastResistancePath() {
-        leastResistancePath = new LeastResistancePath(grid, rowNumber, columnNumber);
+        resistancePath = new ResistancePath(grid, rowNumber, columnNumber);
     }
 
     private void stubGridWith(int resistance) {

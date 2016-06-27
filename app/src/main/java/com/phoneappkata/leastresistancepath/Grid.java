@@ -1,13 +1,22 @@
 package com.phoneappkata.leastresistancepath;
 
+import android.support.annotation.NonNull;
+
+import com.google.common.collect.ContiguousSet;
+
 import java.util.Set;
 
+import static com.google.common.collect.ContiguousSet.create;
+import static com.google.common.collect.DiscreteDomain.integers;
+import static com.google.common.collect.Range.closedOpen;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Collections.emptySet;
 
 public class Grid {
 
-    private static final int FIRST_ROW_NUMBER = 0;
+    private static int FIRST_ROW_NUMBER = 0;
+    private static int ROOT = -1;
+
     private int[][] grid;
 
     public Grid(int[][] grid) {
@@ -24,10 +33,22 @@ public class Grid {
     }
 
     public Set<Integer> getNeighborRowsFor(int row, int column) {
+        if(isRootRowAndColumn(row, column)) {
+            return getRowIndices();
+        }
         if(isLastColumn(column)) {
             return emptySet();
         }
         return newHashSet(getRowNumberPreviousTo(row), row, getRowNumberNextTo(row));
+    }
+
+    @NonNull
+    private ContiguousSet<Integer> getRowIndices() {
+        return create(closedOpen(FIRST_ROW_NUMBER, numberOfRows()), integers());
+    }
+
+    private boolean isRootRowAndColumn(int row, int column) {
+        return (row == column)  &&(row == ROOT);
     }
 
     private int getRowNumberNextTo(int row) {
@@ -56,5 +77,13 @@ public class Grid {
 
     public int valueAt(int row, int column) {
         return grid[row][column];
+    }
+
+    public int getRootRow() {
+        return ROOT;
+    }
+
+    public int getRootColumn() {
+        return ROOT;
     }
 }

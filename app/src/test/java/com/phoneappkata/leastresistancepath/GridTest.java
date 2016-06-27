@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
@@ -13,19 +14,42 @@ import static org.hamcrest.Matchers.is;
 public class GridTest {
     private Grid underTest;
 
+    private int root = -1;
+
+    private int[][] gridArray = new int[][]{{1, 2},{3, 4},{5, 6}};
+
+    private int rowCount = gridArray.length;
+
+    private int columnCount = gridArray[0].length;
+
     @Before
     public void setup() {
-        underTest = new Grid(new int[][]{{1, 2},{3, 4},{5, 6}});
+        underTest = new Grid(gridArray);
     }
 
     @Test
-    public void shouldSetNumberOfRowsOfGrid() {
-        assertThat(underTest.numberOfRows(), is(3));
+    public void shouldReturnNumberOfRowsOfGrid() {
+        assertThat(underTest.numberOfRows(), is(rowCount));
     }
 
     @Test
-    public void shouldSetNumberOfColumnsOfGrid() {
-        assertThat(underTest.numberOfColumns(), is(2));
+    public void shouldReturnNumberOfColumnsOfGrid() {
+        assertThat(underTest.numberOfColumns(), is(columnCount));
+    }
+
+    @Test
+    public void shouldReturnRootRow() {
+        assertThat(underTest.getRootRow(), is(root));
+    }
+
+    @Test
+    public void shouldReturnRootColumn() {
+        assertThat(underTest.getRootColumn(), is(root));
+    }
+
+    @Test
+    public void shouldReturnRowIndicesAsRootNeighbors() {
+        assertThat(underTest.getNeighborRowsFor(root, root), contains(0, 1, 2));
     }
 
     @Test

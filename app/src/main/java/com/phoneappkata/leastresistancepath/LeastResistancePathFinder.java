@@ -8,15 +8,15 @@ public class LeastResistancePathFinder {
 
     private ResistancePathFinder finder;
 
-    public LeastResistancePath find(int[][] gridArray) {
+    public ResistancePath find(int[][] gridArray) {
         grid = getGrid(gridArray);
         finder = getFinder(grid);
 
-        LeastResistancePath result = null;
+        ResistancePath result = null;
 
         for(int i=0;i<grid.numberOfRows();i++) {
-            LeastResistancePath x = new LeastResistancePath(grid.valueAt(i, 0), Lists.newArrayList(i+1), true);
-            LeastResistancePath temp = finder.findAt(i, 0, x);
+            ResistancePath x = new ResistancePath(grid.valueAt(i, 0), Lists.newArrayList(i+1), true);
+            ResistancePath temp = finder.findAt(i, 0, x);
 
             if(result == null || (temp.getResistance() < result.getResistance())) {
                 result = temp;

@@ -1,14 +1,11 @@
 package com.phoneappkata.leastresistancepath;
 
-import com.google.common.collect.Lists;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 
-public class LeastResistancePath {
-    static LeastResistancePath NO_NEIGHBOR = null;
+public class ResistancePath {
+    static ResistancePath NO_NEIGHBOR = null;
 
     private static int MAX_RESISTANCE_TO_FLOW = 50;
 
@@ -16,22 +13,28 @@ public class LeastResistancePath {
     private List<Integer> path;
     private boolean canFlow;
 
-    public LeastResistancePath(int resistance, List<Integer> path, boolean canFlow) {
+    public ResistancePath(int resistance, List<Integer> path, boolean canFlow) {
         this.resistance = resistance;
         this.path = path;
         this.canFlow = canFlow;
     }
 
-    public LeastResistancePath(Grid grid, int row, int column) {
+    public ResistancePath(Grid grid, int row, int column) {
         this(grid, row, column, NO_NEIGHBOR);
     }
 
-    public LeastResistancePath(Grid grid, int row, int column, LeastResistancePath leastResistanceNeighbor) {
+    public ResistancePath(Grid grid, int row, int column, ResistancePath leastResistanceNeighbor) {
         int totalResistance = getTotalResistance(grid, row, column, leastResistanceNeighbor);
 
         this.canFlow = canFlow(totalResistance);
         this.path = getPath(row, leastResistanceNeighbor);
         this.resistance = getResistance(grid, row, column, totalResistance);
+    }
+
+    public ResistancePath() {
+        this.resistance = 0;
+        this.canFlow = true;
+        this.path = newArrayList();
     }
 
     public int getResistance() {
@@ -50,7 +53,7 @@ public class LeastResistancePath {
         return next(row);
     }
 
-    private List<Integer> getPath(int row, LeastResistancePath leastResistanceNeighbor) {
+    private List<Integer> getPath(int row, ResistancePath leastResistanceNeighbor) {
         List<Integer> path = newArrayList(getPath(row));
         if(leastResistanceNeighbor != null && canFlow) {
             path.addAll(leastResistanceNeighbor.getPath());
@@ -70,13 +73,12 @@ public class LeastResistancePath {
         return row + 1;
     }
 
-    private int getTotalResistance(Grid grid, int row, int column, LeastResistancePath leastResistanceNeighbor) {
+    private int getTotalResistance(Grid grid, int row, int column, ResistancePath leastResistanceNeighbor) {
         int totalResistance = grid.valueAt(row, column);
         if(leastResistanceNeighbor != null) {
             totalResistance += leastResistanceNeighbor.getResistance();
         }
         return totalResistance;
     }
-
 
 }

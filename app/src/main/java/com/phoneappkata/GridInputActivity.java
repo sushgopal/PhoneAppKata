@@ -2,24 +2,12 @@ package com.phoneappkata;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.TextView;
 
-import com.phoneappkata.leastresistancepath.LeastResistancePath;
+import com.phoneappkata.leastresistancepath.ResistancePath;
 import com.phoneappkata.leastresistancepath.LeastResistancePathFinder;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GridInputActivity extends AppCompatActivity {
 
@@ -59,7 +47,7 @@ public class GridInputActivity extends AppCompatActivity {
             }
         }
         LeastResistancePathFinder finder = new LeastResistancePathFinder();
-        LeastResistancePath result = finder.find(gridArray);
+        ResistancePath result = finder.find(gridArray);
 
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra("canflow", result.canFlow() ? "YES": "NO");
