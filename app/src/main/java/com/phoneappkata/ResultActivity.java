@@ -8,6 +8,7 @@ import static android.view.Gravity.CENTER;
 import static com.phoneappkata.R.id.can_flow;
 import static com.phoneappkata.R.id.least_resistance;
 import static com.phoneappkata.R.id.least_resistance_path;
+import static com.phoneappkata.R.layout.activity_result;
 import static com.phoneappkata.R.string.can_flow_result;
 import static com.phoneappkata.R.string.least_resistance_path_result;
 import static com.phoneappkata.R.string.least_resistance_result;
@@ -17,7 +18,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result);
+        setContentView(activity_result);
 
         setTextToTextView(can_flow, can_flow_result);
         setTextToTextView(least_resistance, least_resistance_result);

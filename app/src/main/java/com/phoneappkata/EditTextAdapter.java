@@ -1,59 +1,69 @@
 package com.phoneappkata;
 
-import android.text.Editable;
-import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import java.util.List;
+import static android.text.InputType.TYPE_CLASS_NUMBER;
+import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
+import static java.lang.String.valueOf;
 
 
 public class EditTextAdapter<Integer> extends BaseAdapter {
 
-    private GridInputActivity gridInputActivity;
+    static int GRAVITY = 0x11;
+
+    static int SIGNED_NUMBER_INPUT_TYPE = TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_SIGNED;
+
+    private GridInputActivity gridActivity;
+
     private int rowCount;
+
     private int columnCount;
 
-    public EditTextAdapter(GridInputActivity gridInputActivity, int rowCount, int columnCount) {
-        this.gridInputActivity = gridInputActivity;
+    public EditTextAdapter(GridInputActivity activity, int rowCount, int columnCount) {
+        this.gridActivity = activity;
         this.rowCount = rowCount;
         this.columnCount = columnCount;
     }
 
     @Override
     public int getCount() {
-        return rowCount*columnCount;
+        return rowCount * columnCount;
     }
 
     @Override
     public Object getItem(int position) {
-        EditText viewById = (EditText) gridInputActivity.findViewById(position);
-        Editable value = viewById.getText();
-        return value;
+        return getView(position).getText();
     }
 
     @Override
     public long getItemId(int position) {
-        return position / columnCount;
+        return (position / columnCount);
     }
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        EditText text;
-        if(view == null) {
-            text = new EditText(gridInputActivity);
-            text.setText(String.valueOf(position));
-            int inputType = InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED;
-            text.setInputType(inputType);
-            text.setGravity(0x11);
-            text.setId(position);
+        if(view != null) {
+            return view;
         }
-        else {
-            text = (EditText)view;
-        }
+
+        EditText text = getEditText();
+
+        text.setText(valueOf(position));
+        text.setInputType(SIGNED_NUMBER_INPUT_TYPE);
+        text.setGravity(GRAVITY);
+        text.setId(position);
+
         return text;
+    }
+
+    private EditText getView(int position) {
+        return (EditText) gridActivity.findViewById(position);
+    }
+
+    EditText getEditText() {
+        return new EditText(gridActivity);
     }
 }

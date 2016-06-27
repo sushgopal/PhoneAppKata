@@ -10,25 +10,31 @@ import com.phoneappkata.leastresistancepath.Grid;
 import com.phoneappkata.leastresistancepath.LeastResistancePathFinder;
 import com.phoneappkata.leastresistancepath.ResistancePath;
 
+import static com.phoneappkata.R.layout.activity_grid_input;
+import static com.phoneappkata.R.string.grid_column_count;
+import static com.phoneappkata.R.string.grid_row_count;
+
 public class GridInputActivity extends AppCompatActivity {
 
     private int[][] gridArray;
 
     EditTextAdapter<Integer> editTextAdapter;
 
-    int rowCount;
+    private int rowCount;
 
-    int columnCount;
+    private int columnCount;
+
+    private static int DEFAULT_VALUE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_grid_input);
+        setContentView(activity_grid_input);
 
         Intent intent = getIntent();
 
-//        rowCount = intent.getIntExtra(MainActivity.NUMBER_OF_ROWS, 1);
-//        columnCount = intent.getIntExtra(MainActivity.NUMBER_OF_COLUMNS, 5);
+        rowCount = intent.getIntExtra(getString(grid_row_count), DEFAULT_VALUE);
+        columnCount = intent.getIntExtra(getString(grid_column_count), DEFAULT_VALUE);
 
         GridView grid=(GridView) findViewById(R.id.input_grid);
         grid.setNumColumns(columnCount);
