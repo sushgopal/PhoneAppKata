@@ -1,11 +1,17 @@
 package com.phoneappkata;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import static android.view.Gravity.CENTER;
+import static com.phoneappkata.R.id.can_flow;
+import static com.phoneappkata.R.id.least_resistance;
+import static com.phoneappkata.R.id.least_resistance_path;
+import static com.phoneappkata.R.string.can_flow_result;
+import static com.phoneappkata.R.string.least_resistance_path_result;
+import static com.phoneappkata.R.string.least_resistance_result;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -14,19 +20,22 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        Intent intent = getIntent();
-        String canflow = intent.getStringExtra("canflow");
-        String leastResistance = intent.getStringExtra("leastresistance");
-        String path = intent.getStringExtra("leastresistancepath");
+        setTextToTextView(can_flow, can_flow_result);
+        setTextToTextView(least_resistance, least_resistance_result);
+        setTextToTextView(least_resistance_path, least_resistance_path_result);
+    }
 
-        TextView t1 = (TextView) findViewById(R.id.did_flow_through);
-        t1.setText(canflow);
+    private void setTextToTextView(int textViewId, int textResourceId) {
+        TextView t1 = getTextViewFrom(textViewId);
+        t1.setText(getFromIntent(textResourceId));
+        t1.setGravity(CENTER);
+    }
 
-        TextView t2 = (TextView) findViewById(R.id.least_resistance);
-        t2.setText(leastResistance);
+    private TextView getTextViewFrom(int can_flow) {
+        return (TextView) findViewById(can_flow);
+    }
 
-        TextView t3 = (TextView) findViewById(R.id.least_resistance_path);
-        t3.setText(path.toString());
-
+    private String getFromIntent(int resourceId) {
+        return getIntent().getStringExtra(getString(resourceId));
     }
 }

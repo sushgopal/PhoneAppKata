@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Least Resistance Path Finder</string>
     <string name="title_activity_grid_input">GridInputActivity</string>
+    <string name="least_resistance_result">leastresistance</string>
+    <string name="can_flow_result">canflow</string>
+    <string name="least_resistance_path_result">leastresistancepath</string>
 </resources>

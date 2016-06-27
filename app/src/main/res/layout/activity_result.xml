@@ -13,7 +13,7 @@
 
     <TextView
         android:text="did flow through"
-        android:id="@+id/did_flow_through"
+        android:id="@+id/can_flow"
         android:textSize="36sp"
         android:layout_height="wrap_content"
         android:layout_width="match_parent" />
