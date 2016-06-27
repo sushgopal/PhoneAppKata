@@ -1,6 +1,7 @@
 package com.phoneappkata.leastresistancepath;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
@@ -12,11 +13,9 @@ import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Collections.emptySet;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.spy;
+import static org.hamcrest.Matchers.isA;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -30,6 +29,9 @@ public class LeastResistancePathFinderTest {
     private Grid grid;
 
     @Mock
+    private ResistancePath currentPath;
+
+    @Mock
     private ResistancePath neighbor1;
 
     @Mock
@@ -39,13 +41,13 @@ public class LeastResistancePathFinderTest {
 
     private Set<Integer> noNeighbors = emptySet();
 
+    private int root = -1;
+
     private int rowNumber = 1;
 
     private int columnNumber = 2;
 
     private int resistance = 10;
-
-    private List<Integer> path = newArrayList(2);
 
     private int neighBor1row = 0;
 
@@ -57,6 +59,8 @@ public class LeastResistancePathFinderTest {
 
     private int neighbor2Resistance = 40;
 
+    private int largeResistance = 100;
+
     private List<Integer> neighbor1Path = newArrayList(1, 4);
 
     private List<Integer> neighbor2Path = newArrayList(2, 3);
@@ -65,82 +69,109 @@ public class LeastResistancePathFinderTest {
     public void setup() {
         initMocks(this);
 
-        stubGridValueToBe(resistance);
+        stubGrid();
+        stubNewResistancePathInstance();
     }
 
-    //    @Test
-//    public void shoulReturnInstanceOfLeastResistancePath() {
-//        result = underTest.find(gridArray);
-//
-//        assertThat(result, isA(ResistancePath.class));
-//    }
-//
-//    @Test
-//    public void shouldFindPathAtGridOrigin() {
-//        result = underTest.find(gridArray);
-//
-//        verify(finder).findAt(0, 0);
-//    }
-//
-//    @Test
-//    public void shouldFindPathForFirstCellOfEveryRowInGrid() {
-//        result = underTest.find(gridArray);
-//
-//        verify(finder).findAt(0, 0);
-//        verify(finder).findAt(1, 0);
-//        verify(finder).findAt(2, 0);
-//    }
-//
-//    @Test
-//    public void shouldReturnPathOfLeastResistance() {
-//        result = underTest.find(gridArray);
-//
-//        assertThat(result, is(path2));
-//    }
+    private void stubGrid() {
+        stubGridRoot();
+        stubGridValueToBe(resistance);
+        stubGridNext();
+    }
 
-//    @Test
-//    public void shouldSetPath() {
-//        stubGridToReturnNoNeighbors();
-//        runTest();
-//
-//        assertThat(result.getPath(), is(path));
-//    }
-//
-//    @Test
-//    public void shouldSetResistance() {
-//        stubGridToReturnNoNeighbors();
-//        runTest();
-//
-//        assertThat(result.getResistance(), is(resistance));
-//    }
-//
-//    @Test
-//    public void shouldMakeRecursiveCallForEachNeighborRow() {
-//        stubGridToReturnNeighbors();
-//        runTest();
-//
-//        verify(underTest).findAt(neighBor1row, neighBorcolumn);
-//        verify(underTest).findAt(neighBor2row, neighBorcolumn);
-//    }
-//
-//    @Test
-//    public void shouldSetPathWithLeastResistanceNeighbor(){
-//        stubGridToReturnNeighbors();
-//        runTest();
-//
-//        assertThat(result.getPath(), contains(path.get(0), neighbor1Path.get(0), neighbor1Path.get(1)));
-//    }
-//
-//    @Test
-//    public void shouldSetResistanceWithLeastResistanceNeighbor(){
-//        stubGridToReturnNeighbors();
-//
-//        runTest();
-//        assertThat(result.getResistance(), is(resistance+neighbor1Resistance));
-//    }
+    private void stubGridNext() {
+        when(grid.next(columnNumber)).thenReturn(columnNumber + 1);
+    }
+
+    private void stubNewResistancePathInstance() {
+        doReturn(currentPath).when(underTest).getNewPath();
+    }
+
+    private void stubGridRoot() {
+        when(grid.getRootRow()).thenReturn(root);
+        when(grid.getRootColumn()).thenReturn(root);
+    }
+
+    @Test
+    public void shoulReturnInstanceOfLeastResistancePath() {
+        result = underTest.find();
+
+        assertThat(result, isA(ResistancePath.class));
+    }
+
+    @Test
+    public void shouldReturnLeastResistancePathAtGridRoot() {
+        doReturn(result).when(underTest).findAt(root, root, currentPath);
+
+        assertThat(underTest.find(), is(result));
+    }
+
+    @Test
+    public void shouldGetNeighborsForGridRowAndColumn() {
+        runTest();
+
+        verify(grid).getNeighborRowsFor(rowNumber, columnNumber);
+    }
+
+    @Test
+    public void shouldReturnCurrentPathIfNoNeighbors() {
+        stubGridToReturnNoNeighbors();
+        runTest();
+
+        assertThat(result, is(currentPath));
+    }
+
+    @Test
+    public void shouldBuildPathWithNeighbor() {
+        stubGridToReturnNeighbors();
+        runTest();
+
+        verify(currentPath).buildPathWithNeighbor(grid, neighBor1row, neighBorcolumn);
+    }
+
+    @Test
+    public void shouldFindResistancePathForEveryNeighbor() {
+        stubGridToReturnNeighbors();
+        runTest();
+
+        verify(underTest).findAt(neighBor1row, neighBorcolumn, neighbor1);
+        verify(underTest).findAt(neighBor2row, neighBorcolumn, neighbor2);
+    }
+
+    @Test
+    public void shouldBuildBlockedPathIfNieghborBlocksFlow() {
+        stubGridToReturnNeighbors();
+        stubNeighborToBeBlocking();
+
+        runTest();
+        verify(currentPath).buildBlockedPath();
+    }
+
+    @Test
+    public void shouldReturnLeastResistanceNeighborPath(){
+        stubGridToReturnNeighbors();
+        runTest();
+
+        assertThat(result, is(neighbor1));
+    }
+
+    @Test
+    public void shouldReturnLeastResistanceUnBlockedNeighborPathIfPresent(){
+        stubGridToReturnNeighbors();
+        stubNeighborToBeBlocking();
+        runTest();
+
+        assertThat(result, is(neighbor2));
+    }
 
     private void runTest() {
-//        result = underTest.findAt(rowNumber, columnNumber);
+        result = underTest.findAt(rowNumber, columnNumber, currentPath);
+    }
+
+    private void stubNeighborToBeBlocking() {
+        when(neighbor1.getResistance()).thenReturn(largeResistance);
+        when(currentPath.isNeighborBlockingFlow(grid, neighBor1row, neighBorcolumn)).thenReturn(true);
+        when(currentPath.buildBlockedPath()).thenReturn(neighbor1);
     }
 
     private void stubGridToReturnNoNeighbors() {
@@ -154,15 +185,22 @@ public class LeastResistancePathFinderTest {
     }
 
     private void stubLeastResistancePathForNeighbors() {
-//        doReturn(neighbor1).when(underTest).findAt(neighBor1row, neighBorcolumn);
-//        doReturn(neighbor2).when(underTest).findAt(neighBor2row, neighBorcolumn);
+        doReturn(neighbor1).when(underTest).findAt(neighBor1row, neighBorcolumn, neighbor1);
+        doReturn(neighbor2).when(underTest).findAt(neighBor2row, neighBorcolumn, neighbor2);
     }
 
     private void stubNeighbors() {
-        when(neighbor1.getResistance()).thenReturn(neighbor1Resistance);
-        when(neighbor1.getPath()).thenReturn(neighbor1Path);
-        when(neighbor2.getResistance()).thenReturn(neighbor2Resistance);
-        when(neighbor2.getPath()).thenReturn(neighbor2Path);
+        when(currentPath.buildPathWithNeighbor(grid, neighBor1row, neighBorcolumn)).thenReturn(neighbor1);
+        when(currentPath.buildPathWithNeighbor(grid, neighBor2row, neighBorcolumn)).thenReturn(neighbor2);
+
+        stubNeighborWith(neighbor1, neighbor1Resistance, neighbor1Path);
+        stubNeighborWith(neighbor2, neighbor2Resistance, neighbor2Path);
+    }
+
+    private void stubNeighborWith(ResistancePath neighbor, int resistance, List<Integer> path) {
+        when(neighbor.getResistance()).thenReturn(resistance);
+        when(neighbor.getPath()).thenReturn(path);
+        when(neighbor.canFlow()).thenReturn(true);
     }
 
     private void stubGridValueToBe(int resistance) {

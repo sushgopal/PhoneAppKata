@@ -16,11 +16,23 @@ public class GridTest {
 
     private int root = -1;
 
-    private int[][] gridArray = new int[][]{{1, 2},{3, 4},{5, 6}};
+    private int resitance = 3;
+
+    private int[][] gridArray = new int[][]{{1, 2},{resitance, 4},{5, 6}};
 
     private int rowCount = gridArray.length;
 
     private int columnCount = gridArray[0].length;
+
+    private int lastColumn = columnCount - 1;
+
+    private int column = 0;
+
+    private int firstRow = 0;
+
+    private int secondRow = 1;
+
+    private int thirdRow = 2;
 
     @Before
     public void setup() {
@@ -49,37 +61,37 @@ public class GridTest {
 
     @Test
     public void shouldReturnRowIndicesAsRootNeighbors() {
-        assertThat(underTest.getNeighborRowsFor(root, root), contains(0, 1, 2));
+        assertThat(underTest.getNeighborRowsFor(root, root), contains(firstRow, secondRow, thirdRow));
     }
 
     @Test
     public void shouldReturnNoNeighborsIfColumnIsTheLastOne() {
-        assertThat(neighborRowsFor(0, 1), is(empty()));
+        assertThat(neighborRowsFor(firstRow, lastColumn), is(empty()));
     }
 
     @Test
     public void shouldContainPreviousRowNumber() {
-        assertThat(neighborRowsFor(1, 0), hasItem(0));
+        assertThat(neighborRowsFor(secondRow, column), hasItem(firstRow));
     }
 
     @Test
     public void shouldContainFirstRowNumberIfInputRowIsTheLastOne() {
-        assertThat(neighborRowsFor(2, 0), hasItem(0));
+        assertThat(neighborRowsFor(secondRow, column), hasItem(firstRow));
     }
 
     @Test
     public void shouldContainSameRowNumber() {
-        assertThat(neighborRowsFor(1, 0), hasItem(1));
+        assertThat(neighborRowsFor(secondRow, column), hasItem(secondRow));
     }
 
     @Test
     public void shouldContainNextRowNumber() {
-        assertThat(neighborRowsFor(1, 0), hasItem(2));
+        assertThat(neighborRowsFor(secondRow, column), hasItem(thirdRow));
     }
 
     @Test
     public void shouldContainLastRowNumberIfInputRowIsTheFirstOne() {
-        assertThat(neighborRowsFor(0, 0), hasItem(2));
+        assertThat(neighborRowsFor(firstRow, column), hasItem(thirdRow));
     }
 
     private Set<Integer> neighborRowsFor(int row, int column) {
@@ -90,12 +102,17 @@ public class GridTest {
     public void shouldNotContainSameRowNumberTwice() {
         underTest = new Grid(new int[][]{{0, 0}, {1, 1}});
 
-        assertThat(neighborRowsFor(0, 0).size(), is(2));
+        assertThat(neighborRowsFor(firstRow, column).size(), is(2));
     }
 
     @Test
     public void shouldReturnArrayValueAtRowAndColumn() {
-        assertThat(underTest.valueAt(1, 0), is(3));
+        assertThat(underTest.valueAt(secondRow, column), is(resitance));
+    }
+
+    @Test
+    public void shouldReturnNextIndex() {
+        assertThat(underTest.next(secondRow), is(thirdRow));
     }
 }
 

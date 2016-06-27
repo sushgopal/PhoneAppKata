@@ -43,14 +43,10 @@ public class ResistancePath {
     public ResistancePath buildPathWithNeighbor(Grid grid, int row, int column) {
         ImmutableList<Integer> list = ImmutableList.<Integer> builder()
                                                     .addAll(path)
-                                                    .add(next(row))
+                                                    .add(grid.next(row))
                                                     .build();
 
         return new ResistancePath(getResistance()+grid.valueAt(row, column), list, CAN_FLOW);
-    }
-
-    private int next(int row) {
-        return row + 1;
     }
 
     public ResistancePath buildBlockedPath() {

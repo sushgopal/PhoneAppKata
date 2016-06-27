@@ -86,4 +86,8 @@ public class Grid {
     public int getRootColumn() {
         return ROOT;
     }
+
+    public int next(int index) {
+        return index + 1;
+    }
 }

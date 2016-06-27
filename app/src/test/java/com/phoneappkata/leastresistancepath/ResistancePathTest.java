@@ -41,6 +41,8 @@ public class ResistancePathTest {
     @Before
     public void setup() {
         initMocks(this);
+
+        when(grid.next(row)).thenReturn(nextRow);
     }
 
     @Test
