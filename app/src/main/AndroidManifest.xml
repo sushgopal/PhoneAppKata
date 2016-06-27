@@ -19,7 +19,11 @@
             android:name=".GridInputActivity"
             android:label="@string/title_activity_grid_input"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".ResultActivity"></activity>
+        <activity
+            android:name=".ResultActivity"
+            android:label="ResultActivity"
+            android:parentActivityName=".GridInputActivity"/>
+
     </application>
 
 </manifest>

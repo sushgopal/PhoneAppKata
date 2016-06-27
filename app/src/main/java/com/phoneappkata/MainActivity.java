@@ -18,9 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        callOnCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         rowPicker = (NumberPicker) findViewById(R.id.row_picker);
         rowPicker.setMinValue(1);
         rowPicker.setMaxValue(10);
@@ -30,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
         columnPicker.setValue(5);
         columnPicker.setMinValue(5);
         columnPicker.setMaxValue(100);
+    }
+
+    void callOnCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     public void submitGridSize(View view) {

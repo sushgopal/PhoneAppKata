@@ -1,16 +1,21 @@
 package com.phoneappkata.leastresistancepath;
 
+import com.google.common.collect.Lists;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 
+import java.util.List;
 import java.util.Set;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Collections.emptySet;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -48,7 +53,7 @@ public class ResistancePathFinderTest {
 
     private int resistance = 10;
 
-    private String path = "2";
+    private List<Integer> path = newArrayList(2);
 
     private int neighBor1row = 0;
 
@@ -60,9 +65,9 @@ public class ResistancePathFinderTest {
 
     private int neighbor2Resistance = 40;
 
-    private String neighbor1Path = "1 4";
+    private List<Integer> neighbor1Path = newArrayList(1, 4);
 
-    private String neighbor2Path = "2 3";
+    private List<Integer> neighbor2Path = newArrayList(2, 3);
 
     @Before
     public void setup() {
@@ -107,10 +112,9 @@ public class ResistancePathFinderTest {
     @Test
     public void shouldSetPathWithLeastResistanceNeighbor(){
         stubGridToReturnNeighbors();
-        String expected = path + " " + neighbor1Path;
-
         runTest();
-        assertThat(result.getPath(), is(expected));
+
+        assertThat(result.getPath(), contains(path.get(0), neighbor1Path.get(0), neighbor1Path.get(1)));
     }
 
     @Test

@@ -1,14 +1,19 @@
 package com.phoneappkata.leastresistancepath;
 
+import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
+
 public class LeastResistancePath {
     static LeastResistancePath NO_NEIGHBOR = null;
 
     private static int MAX_RESISTANCE_TO_FLOW = 50;
 
-    private static String PATH_DELIMITER = " ";
-
     private int resistance;
-    private String path;
+    private List<Integer> path;
     private boolean canFlow;
 
     public LeastResistancePath(Grid grid, int row, int column) {
@@ -31,18 +36,18 @@ public class LeastResistancePath {
         return canFlow ? totalResistance : grid.valueAt(row, column);
     }
 
-    public String getPath() {
+    public List<Integer> getPath() {
         return path;
     }
 
-    private String getPath(int row) {
+    private Integer getPath(int row) {
         return next(row);
     }
 
-    private String getPath(int row, LeastResistancePath leastResistanceNeighbor) {
-        String path = getPath(row);
+    private List<Integer> getPath(int row, LeastResistancePath leastResistanceNeighbor) {
+        List<Integer> path = newArrayList(getPath(row));
         if(leastResistanceNeighbor != null && canFlow) {
-            path = path + PATH_DELIMITER + leastResistanceNeighbor.getPath();
+            path.addAll(leastResistanceNeighbor.getPath());
         }
         return path;
     }
@@ -55,8 +60,8 @@ public class LeastResistancePath {
         return resistance <= MAX_RESISTANCE_TO_FLOW;
     }
 
-    private String next(int row) {
-        return Integer.toString((row + 1));
+    private int next(int row) {
+        return row + 1;
     }
 
     private int getTotalResistance(Grid grid, int row, int column, LeastResistancePath leastResistanceNeighbor) {
