@@ -15,15 +15,15 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         Intent intent = getIntent();
-        boolean canflow = intent.getBooleanExtra("canflow", false);
-        int leastResistance = intent.getIntExtra("leastresistance", 0);
-        ArrayList<Integer> path = intent.getIntegerArrayListExtra("leastresistancepath");//getIntegerArrayList("path");
+        String canflow = intent.getStringExtra("canflow");
+        String leastResistance = intent.getStringExtra("leastresistance");
+        String path = intent.getStringExtra("leastresistancepath");
 
         TextView t1 = (TextView) findViewById(R.id.did_flow_through);
-        t1.setText(Boolean.toString(canflow));
+        t1.setText(canflow);
 
         TextView t2 = (TextView) findViewById(R.id.least_resistance);
-        t2.setText(leastResistance+"");
+        t2.setText(leastResistance);
 
         TextView t3 = (TextView) findViewById(R.id.least_resistance_path);
         t3.setText(path.toString());

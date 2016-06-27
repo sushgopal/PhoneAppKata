@@ -16,6 +16,12 @@ public class LeastResistancePath {
     private List<Integer> path;
     private boolean canFlow;
 
+    public LeastResistancePath(int resistance, List<Integer> path, boolean canFlow) {
+        this.resistance = resistance;
+        this.path = path;
+        this.canFlow = canFlow;
+    }
+
     public LeastResistancePath(Grid grid, int row, int column) {
         this(grid, row, column, NO_NEIGHBOR);
     }

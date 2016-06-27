@@ -62,9 +62,9 @@ public class GridInputActivity extends AppCompatActivity {
         LeastResistancePath result = finder.find(gridArray);
 
         Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra("canflow", result.canFlow());
-        intent.putExtra("leastresistance", result.getResistance());
-        intent.putExtra("leastresistancepath", (Serializable) result.getPath());
+        intent.putExtra("canflow", result.canFlow() ? "YES": "NO");
+        intent.putExtra("leastresistance", Integer.toString(result.getResistance()));
+        intent.putExtra("leastresistancepath", result.getPath().toString());
 
         startActivity(intent);
 
