@@ -12,8 +12,6 @@ import com.phoneappkata.leastresistancepath.LeastResistancePath;
 import com.phoneappkata.leastresistancepath.LeastResistancePathFinder;
 import com.phoneappkata.leastresistancepath.ResistancePath;
 
-import org.apache.commons.lang3.StringUtils;
-
 import static com.phoneappkata.R.id.input_grid;
 import static com.phoneappkata.R.layout.activity_grid_input;
 import static com.phoneappkata.R.string.can_flow_result;
@@ -24,32 +22,53 @@ import static com.phoneappkata.R.string.least_resistance_result;
 
 public class GridInputActivity extends AppCompatActivity {
 
-    private char DELIMITER = ' ';
-
-    private int rowCount;
-
-    private int columnCount;
-
     private static int DEFAULT_VALUE = 0;
 
     private EditTextAdapter<Integer> editTextAdapter;
+
+    private GridBuilder gridBuilder = new GridBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_grid_input);
 
-        rowCount = getInputCount(grid_row_count);
-        columnCount = getInputCount(grid_column_count);
-
         setUpGridView();
+    }
+
+    void setUpGridView() {
+        editTextAdapter= getEditTextAdapter();
+
+        GridView grid=(GridView) findViewById(input_grid);
+        grid.setNumColumns(getCount(grid_column_count));
+        grid.setAdapter(editTextAdapter);
+    }
+
+    EditTextAdapter<Integer> getEditTextAdapter() {
+        return new EditTextAdapter<>(this, getCount(grid_row_count), getCount(grid_column_count));
+    }
+
+    int getCount(int id) {
+        return getIntent().getIntExtra(getString(id), DEFAULT_VALUE);
     }
 
     public void getLeastResistancePath(View view) {
         ResistancePath result = getPathFinder(getGrid()).find();
-        LeastResistancePath leastResistancePath = new LeastResistancePath(result);
+        LeastResistancePath leastResistancePath = getResultToDisplayFrom(result);
 
         startResultActivity(leastResistancePath);
+    }
+
+    LeastResistancePathFinder getPathFinder(Grid grid) {
+        return new LeastResistancePathFinder(grid);
+    }
+
+    private Grid getGrid() {
+        return gridBuilder.buildFrom(getCount(grid_row_count), getCount(grid_column_count), editTextAdapter);
+    }
+
+    LeastResistancePath getResultToDisplayFrom(ResistancePath result) {
+        return new LeastResistancePath(result);
     }
 
     private void startResultActivity(LeastResistancePath leastResistancePath) {
@@ -60,30 +79,6 @@ public class GridInputActivity extends AppCompatActivity {
         intent.putExtra(getString(least_resistance_path_result), leastResistancePath.path());
 
         startActivity(intent);
-    }
-
-    private Grid getGrid() {
-        return new GridBuilder().buildFrom(rowCount, columnCount, editTextAdapter);
-    }
-
-    void setUpGridView() {
-        editTextAdapter= getEditTextAdapter();
-
-        GridView grid=(GridView) findViewById(input_grid);
-        grid.setNumColumns(getInputCount(grid_column_count));
-        grid.setAdapter(editTextAdapter);
-    }
-
-    EditTextAdapter<Integer> getEditTextAdapter() {
-        return new EditTextAdapter<>(this, rowCount, columnCount);
-    }
-
-    int getInputCount(int id) {
-        return getIntent().getIntExtra(getString(id), DEFAULT_VALUE);
-    }
-
-    private LeastResistancePathFinder getPathFinder(Grid grid) {
-        return new LeastResistancePathFinder(grid);
     }
 
     Intent getResultActivityIntent() {
