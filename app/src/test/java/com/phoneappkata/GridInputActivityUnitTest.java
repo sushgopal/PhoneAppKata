@@ -98,32 +98,4 @@ public class GridInputActivityUnitTest {
         assertThat(underTest.getEditTextAdapter(), isA(EditTextAdapter.class));
     }
 
-    @Test
-    public void shouldReturnYesIfCanFlow() {
-        when(path.canFlow()).thenReturn(true);
-
-        assertThat(underTest.canFlow(path), is("YES"));
-    }
-
-    @Test
-    public void shouldReturnNoIfCanFlow() {
-        when(path.canFlow()).thenReturn(false);
-
-        assertThat(underTest.canFlow(path), is("NO"));
-    }
-
-    @Test
-    public void shouldReturnResistancePathAsString() {
-        when(path.getPath()).thenReturn(resistancePath);
-
-        assertThat(underTest.getLeastResistancePath(path), is("1 1"));
-    }
-
-    @Test
-    public void shouldReturnResistance() {
-        when(path.getResistance()).thenReturn(resistance);
-
-        assertThat(underTest.getLeastResistance(path), is("20"));
-    }
-
 }

@@ -8,6 +8,7 @@ import android.widget.GridView;
 
 import com.phoneappkata.leastresistancepath.Grid;
 import com.phoneappkata.leastresistancepath.GridBuilder;
+import com.phoneappkata.leastresistancepath.LeastResistancePath;
 import com.phoneappkata.leastresistancepath.LeastResistancePathFinder;
 import com.phoneappkata.leastresistancepath.ResistancePath;
 
@@ -31,10 +32,6 @@ public class GridInputActivity extends AppCompatActivity {
 
     private static int DEFAULT_VALUE = 0;
 
-    private static String YES = "YES";
-
-    private static String NO = "NO";
-
     private EditTextAdapter<Integer> editTextAdapter;
 
     @Override
@@ -50,16 +47,17 @@ public class GridInputActivity extends AppCompatActivity {
 
     public void getLeastResistancePath(View view) {
         ResistancePath result = getPathFinder(getGrid()).find();
+        LeastResistancePath leastResistancePath = new LeastResistancePath(result);
 
-        startResultActivity(result);
+        startResultActivity(leastResistancePath);
     }
 
-    private void startResultActivity(ResistancePath result) {
+    private void startResultActivity(LeastResistancePath leastResistancePath) {
         Intent intent = getResultActivityIntent();
 
-        intent.putExtra(getString(can_flow_result), canFlow(result));
-        intent.putExtra(getString(least_resistance_result), getLeastResistance(result));
-        intent.putExtra(getString(least_resistance_path_result), getLeastResistancePath(result));
+        intent.putExtra(getString(can_flow_result), leastResistancePath.canFlow());
+        intent.putExtra(getString(least_resistance_result), leastResistancePath.resistance());
+        intent.putExtra(getString(least_resistance_path_result), leastResistancePath.path());
 
         startActivity(intent);
     }
@@ -86,18 +84,6 @@ public class GridInputActivity extends AppCompatActivity {
 
     private LeastResistancePathFinder getPathFinder(Grid grid) {
         return new LeastResistancePathFinder(grid);
-    }
-
-    String getLeastResistancePath(ResistancePath result) {
-        return StringUtils.join(result.getPath(), DELIMITER);
-    }
-
-    String getLeastResistance(ResistancePath result) {
-        return Integer.toString(result.getResistance());
-    }
-
-    String canFlow(ResistancePath result) {
-        return result.canFlow() ? YES: NO;
     }
 
     Intent getResultActivityIntent() {
