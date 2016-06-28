@@ -21,6 +21,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.phoneappkata.R.id.column_picker;
 import static com.phoneappkata.R.id.row_picker;
 import static com.phoneappkata.R.id.submit_grid_size;
+import static com.phoneappkata.R.string.grid_column_count;
+import static com.phoneappkata.R.string.grid_row_count;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -40,7 +42,7 @@ public class MainActivityTest {
     }
 
     @Test
-    public void shouldLaunchGridInputActivityOnSubmit() {
+    public void shouldCreateIntentForGridInputActivityOnSubmit() {
         onView(withId(submit_grid_size)).perform(click());
 
         intended(hasComponent("com.phoneappkata.GridInputActivity"));
@@ -50,7 +52,7 @@ public class MainActivityTest {
     public void shouldSetGridRowCountToExtrasOnSubmit() {
         onView(withId(submit_grid_size)).perform(click());
 
-        intended(hasExtras(hasEntry(getString(R.string.grid_column_count), 5)));
+        intended(hasExtras(hasEntry(getString(grid_column_count), 5)));
     }
 
 
@@ -58,7 +60,7 @@ public class MainActivityTest {
     public void shouldSetGridColumnCountToExtrasOnSubmit() {
         onView(withId(submit_grid_size)).perform(click());
 
-        intended(hasExtras(hasEntry(getString(R.string.grid_row_count), 1)));
+        intended(hasExtras(hasEntry(getString(grid_row_count), 1)));
     }
 
     private String getString(int id) {

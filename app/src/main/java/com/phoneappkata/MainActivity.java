@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.NumberPicker;
 
+import static com.phoneappkata.R.layout.activity_main;
 import static com.phoneappkata.R.string.grid_column_count;
 import static com.phoneappkata.R.string.grid_row_count;
 
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         callOnCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(activity_main);
 
         rowPicker = factory.createRowPicker(this);
         columnPicker = factory.createColumnPicker(this);

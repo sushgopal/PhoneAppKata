@@ -10,15 +10,20 @@ import com.phoneappkata.leastresistancepath.Grid;
 import com.phoneappkata.leastresistancepath.LeastResistancePathFinder;
 import com.phoneappkata.leastresistancepath.ResistancePath;
 
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static com.phoneappkata.R.id.input_grid;
 import static com.phoneappkata.R.layout.activity_grid_input;
+import static com.phoneappkata.R.string.can_flow_result;
 import static com.phoneappkata.R.string.grid_column_count;
 import static com.phoneappkata.R.string.grid_row_count;
+import static com.phoneappkata.R.string.least_resistance_path_result;
+import static com.phoneappkata.R.string.least_resistance_result;
 
 public class GridInputActivity extends AppCompatActivity {
 
-    private int[][] gridArray;
-
-    EditTextAdapter<Integer> editTextAdapter;
+    private String DELIMITER = " ";
 
     private int rowCount;
 
@@ -26,44 +31,87 @@ public class GridInputActivity extends AppCompatActivity {
 
     private static int DEFAULT_VALUE = 0;
 
+    private static String YES = "YES";
+
+    private static String NO = "NO";
+
+    private EditTextAdapter<Integer> editTextAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_grid_input);
 
-        Intent intent = getIntent();
+        rowCount = getInputCount(grid_row_count);
+        columnCount = getInputCount(grid_column_count);
 
-        rowCount = intent.getIntExtra(getString(grid_row_count), DEFAULT_VALUE);
-        columnCount = intent.getIntExtra(getString(grid_column_count), DEFAULT_VALUE);
-
-        GridView grid=(GridView) findViewById(R.id.input_grid);
-        grid.setNumColumns(columnCount);
-
-        editTextAdapter=new EditTextAdapter<Integer> (this, rowCount, columnCount);
-        grid.setAdapter(editTextAdapter);
+        setUpGridView();
     }
 
     public void getLeastResistancePath(View view) {
-        gridArray = new int[rowCount][columnCount];
+        ResistancePath result = getPathFinder(getGrid()).find();
 
-        for(int i=0;i<rowCount;i++) {
-            for(int j=0; j<columnCount; j++) {
-                Object value = editTextAdapter.getItem((columnCount * i) + j);
-                Integer intValue = Integer.valueOf(value.toString());
-                gridArray[i][j] = intValue;
-            }
-        }
-        LeastResistancePathFinder finder = new LeastResistancePathFinder(new Grid(gridArray));
-        ResistancePath result = finder.find();
+        startResultActivity(result);
+    }
 
-        Intent intent = new Intent(this, ResultActivity.class);
-//        ResistancePath result = null;
-        intent.putExtra("canflow", result.canFlow() ? "YES": "NO");
-        intent.putExtra("leastresistance", Integer.toString(result.getResistance()));
-        intent.putExtra("leastresistancepath", result.getPath().toString());
+    private void startResultActivity(ResistancePath result) {
+        Intent intent = getResultActivityIntent();
+
+        intent.putExtra(getString(can_flow_result), canFlow(result));
+        intent.putExtra(getString(least_resistance_result), getLeastResistance(result));
+        intent.putExtra(getString(least_resistance_path_result), getLeastResistancePath(result));
 
         startActivity(intent);
+    }
 
+    private Grid getGrid() {
+        return new GridBuilder().buildFrom(rowCount, columnCount, editTextAdapter);
+    }
+
+    void setUpGridView() {
+        editTextAdapter= getEditTextAdapter();
+
+        GridView grid=(GridView) findViewById(input_grid);
+        grid.setNumColumns(getInputCount(grid_column_count));
+        grid.setAdapter(editTextAdapter);
+    }
+
+    EditTextAdapter<Integer> getEditTextAdapter() {
+        return new EditTextAdapter<>(this, rowCount, columnCount);
+    }
+
+    int getInputCount(int id) {
+        return getIntent().getIntExtra(getString(id), DEFAULT_VALUE);
+    }
+
+    private LeastResistancePathFinder getPathFinder(Grid grid) {
+        return new LeastResistancePathFinder(grid);
+    }
+
+    String getLeastResistancePath(ResistancePath result) {
+        return result.getPath()
+                .stream()
+                .map(new Function<Integer, String>() {
+                    @Override
+                    public String apply(Integer n) {
+                        return n.toString();
+                    }
+                })
+                .collect(Collectors.joining(DELIMITER));
+    }
+
+
+
+    String getLeastResistance(ResistancePath result) {
+        return Integer.toString(result.getResistance());
+    }
+
+    String canFlow(ResistancePath result) {
+        return result.canFlow() ? YES: NO;
+    }
+
+    Intent getResultActivityIntent() {
+        return new Intent(this, ResultActivity.class);
     }
 
 }
