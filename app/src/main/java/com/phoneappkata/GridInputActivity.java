@@ -7,13 +7,11 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.phoneappkata.leastresistancepath.Grid;
+import com.phoneappkata.leastresistancepath.GridBuilder;
 import com.phoneappkata.leastresistancepath.LeastResistancePathFinder;
 import com.phoneappkata.leastresistancepath.ResistancePath;
 
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static com.phoneappkata.R.id.input_grid;
 import static com.phoneappkata.R.layout.activity_grid_input;

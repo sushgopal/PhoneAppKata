@@ -1,12 +1,10 @@
 package com.phoneappkata.leastresistancepath;
 
 import com.phoneappkata.EditTextAdapter;
-import com.phoneappkata.GridBuilder;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
