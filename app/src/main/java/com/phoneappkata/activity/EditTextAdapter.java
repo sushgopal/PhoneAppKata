@@ -1,4 +1,4 @@
-package com.phoneappkata;
+package com.phoneappkata.activity;
 
 import android.view.View;
 import android.view.ViewGroup;

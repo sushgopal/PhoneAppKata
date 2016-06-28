@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.phoneappkata.activity.ResultActivity;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,7 +25,7 @@ import static com.phoneappkata.R.string.least_resistance_path_result;
 import static com.phoneappkata.R.string.least_resistance_result;
 
 @RunWith(AndroidJUnit4.class)
-public class ResultActivityTest {
+public class ResultActivityUiTest {
 
     @Rule
     public ActivityTestRule<ResultActivity> activityUnderTest;

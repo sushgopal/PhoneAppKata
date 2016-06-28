@@ -49,6 +49,22 @@ public class Grid {
         return newHashSet(getRowNumberPreviousTo(row), row, getRowNumberNextTo(row));
     }
 
+    public int valueAt(int row, int column) {
+        return grid[row][column];
+    }
+
+    public int getRootRow() {
+        return ROOT;
+    }
+
+    public int getRootColumn() {
+        return ROOT;
+    }
+
+    public int next(int index) {
+        return index + 1;
+    }
+
     @NonNull
     private ContiguousSet<Integer> getRowIndices() {
         return create(closedOpen(FIRST_ROW_NUMBER, numberOfRows()), integers());
@@ -82,19 +98,4 @@ public class Grid {
         return numberOfColumns() == (column + 1);
     }
 
-    public int valueAt(int row, int column) {
-        return grid[row][column];
-    }
-
-    public int getRootRow() {
-        return ROOT;
-    }
-
-    public int getRootColumn() {
-        return ROOT;
-    }
-
-    public int next(int index) {
-        return index + 1;
-    }
 }

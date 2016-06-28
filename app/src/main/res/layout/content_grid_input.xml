@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.phoneappkata.GridInputActivity"
+    tools:context="com.phoneappkata.activity.GridInputActivity"
     tools:showIn="@layout/activity_grid_input">
 
 </android.support.constraint.ConstraintLayout>

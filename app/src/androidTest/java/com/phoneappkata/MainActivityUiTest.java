@@ -3,7 +3,8 @@ package com.phoneappkata;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.Before;
+import com.phoneappkata.activity.MainActivity;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,7 @@ import static com.phoneappkata.R.string.grid_row_count;
 
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class MainActivityUiTest {
 
     @Rule
     public IntentsTestRule<MainActivity> activityUnderTest = new IntentsTestRule(MainActivity.class);
@@ -45,7 +46,7 @@ public class MainActivityTest {
     public void shouldCreateIntentForGridInputActivityOnSubmit() {
         onView(withId(submit_grid_size)).perform(click());
 
-        intended(hasComponent("com.phoneappkata.GridInputActivity"));
+        intended(hasComponent("com.phoneappkata.activity.GridInputActivity"));
     }
 
     @Test
@@ -54,7 +55,6 @@ public class MainActivityTest {
 
         intended(hasExtras(hasEntry(getString(grid_column_count), 5)));
     }
-
 
     @Test
     public void shouldSetGridColumnCountToExtrasOnSubmit() {

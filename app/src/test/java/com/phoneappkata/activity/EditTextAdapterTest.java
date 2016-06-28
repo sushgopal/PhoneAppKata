@@ -1,17 +1,20 @@
-package com.phoneappkata;
+package com.phoneappkata.activity;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 
+import com.phoneappkata.activity.EditTextAdapter;
+import com.phoneappkata.activity.GridInputActivity;
+
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static com.phoneappkata.EditTextAdapter.GRAVITY;
-import static com.phoneappkata.EditTextAdapter.SIGNED_NUMBER_INPUT_TYPE;
+import static com.phoneappkata.activity.EditTextAdapter.GRAVITY;
+import static com.phoneappkata.activity.EditTextAdapter.SIGNED_NUMBER_INPUT_TYPE;
 import static java.lang.String.valueOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -27,6 +30,12 @@ public class EditTextAdapterTest {
     @Mock
     private GridInputActivity gridActivity;
 
+    @Mock
+    private ViewGroup noViewGroup;
+
+    @Mock
+    private EditText editTextView;
+
     private int rowCount = 4;
 
     private int columnCount = 5;
@@ -34,11 +43,6 @@ public class EditTextAdapterTest {
     private int position = 5 ;
 
     private View noView = null;
-
-    private ViewGroup noViewGroup = null;
-
-    @Mock
-    private EditText editTextView;
 
     @Before
     public void setup() {

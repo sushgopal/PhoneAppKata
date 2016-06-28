@@ -1,4 +1,4 @@
-package com.phoneappkata;
+package com.phoneappkata.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

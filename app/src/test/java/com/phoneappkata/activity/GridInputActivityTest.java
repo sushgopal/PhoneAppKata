@@ -1,9 +1,10 @@
-package com.phoneappkata;
+package com.phoneappkata.activity;
 
 import android.content.Intent;
 import android.view.View;
 import android.widget.GridView;
 
+import com.phoneappkata.R;
 import com.phoneappkata.leastresistancepath.Grid;
 import com.phoneappkata.leastresistancepath.GridBuilder;
 import com.phoneappkata.leastresistancepath.LeastResistancePath;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class GridInputActivityUnitTest {
+public class GridInputActivityTest {
     @InjectMocks
     @Spy
     GridInputActivity underTest = new GridInputActivity();

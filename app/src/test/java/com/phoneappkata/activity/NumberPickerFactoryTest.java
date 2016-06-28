@@ -1,6 +1,9 @@
-package com.phoneappkata;
+package com.phoneappkata.activity;
 
 import android.widget.NumberPicker;
+
+import com.phoneappkata.activity.MainActivity;
+import com.phoneappkata.activity.NumberPickerFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,14 +19,6 @@ public class NumberPickerFactoryTest {
 
     private NumberPickerFactory underTest;
 
-    private int minRow = 1;
-
-    private int maxRow = 10;
-
-    private int minColumn = 5;
-
-    private int maxColumn = 100;
-
     @Mock
     private MainActivity activity;
 
@@ -32,6 +27,14 @@ public class NumberPickerFactoryTest {
 
     @Mock
     private NumberPicker rowNumberPicker;
+
+    private int minRow = 1;
+
+    private int maxRow = 10;
+
+    private int minColumn = 5;
+
+    private int maxColumn = 100;
 
     @Before
     public void setUp() throws Exception {

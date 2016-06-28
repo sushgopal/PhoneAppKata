@@ -1,4 +1,4 @@
-package com.phoneappkata;
+package com.phoneappkata.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

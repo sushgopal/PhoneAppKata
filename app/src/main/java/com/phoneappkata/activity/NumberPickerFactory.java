@@ -1,6 +1,8 @@
-package com.phoneappkata;
+package com.phoneappkata.activity;
 
 import android.widget.NumberPicker;
+
+import com.phoneappkata.activity.MainActivity;
 
 import static com.phoneappkata.R.id.column_picker;
 import static com.phoneappkata.R.id.row_picker;

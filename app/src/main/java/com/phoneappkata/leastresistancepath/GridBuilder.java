@@ -1,6 +1,6 @@
 package com.phoneappkata.leastresistancepath;
 
-import com.phoneappkata.EditTextAdapter;
+import com.phoneappkata.activity.EditTextAdapter;
 
 import static java.lang.Integer.valueOf;
 

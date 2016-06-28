@@ -16,7 +16,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class LeastResistancePathTest {
 
-    LeastResistancePath underTest;
+    private LeastResistancePath underTest;
 
     @Mock
     private ResistancePath path;
