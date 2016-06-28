@@ -2,25 +2,28 @@ package com.phoneappkata;
 
 
 import com.phoneappkata.leastresistancepath.Grid;
-import com.phoneappkata.leastresistancepath.ResistancePath;
 
 import static java.lang.Integer.valueOf;
 
 public class GridBuilder {
 
-    public Grid buildFrom(int rows, int columns, EditTextAdapter adapter) {
+    public Grid buildFrom(final int rows, final int columns, final EditTextAdapter adapter) {
 
-        int[][] gridArray = new int[rows][columns];
+        Grid grid = new Grid(rows, columns);
 
-        for(int i=0;i<rows;i++) {
+        for(int i=0; i<rows; i++) {
             for(int j=0; j<columns; j++) {
-                Object value = adapter.getItem((columns * i) + j);
+                Object value = getItem(columns, adapter, i, j);
                 Integer intValue = valueOf(value.toString());
-                gridArray[i][j] = intValue;
+                grid.setAt(i, j, intValue);
             }
         }
 
-        return new Grid(gridArray);
+        return grid;
+    }
+
+    private Object getItem(int columns, EditTextAdapter adapter, int row, int column) {
+        return adapter.getItem((columns * row) + column);
     }
 
 }

@@ -114,5 +114,12 @@ public class GridTest {
     public void shouldReturnNextIndex() {
         assertThat(underTest.next(secondRow), is(thirdRow));
     }
+
+    @Test
+    public void shouldSetValue() {
+        underTest.setAt(firstRow, column, resitance);
+
+        assertThat(underTest.valueAt(firstRow, column), is(resitance));
+    }
 }
 

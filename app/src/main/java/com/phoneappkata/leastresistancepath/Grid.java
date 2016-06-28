@@ -19,10 +19,17 @@ public class Grid {
 
     private int[][] grid;
 
-    public Grid(int[][] grid) {
+    public Grid(int rows, int columns) {
+        this.grid = new int[rows][columns];
+    }
+
+    Grid (int[][] grid) {
         this.grid = grid;
     }
 
+    public void setAt(int row, int column, int value) {
+        grid[row][column]= value;
+    }
 
     public int numberOfRows() {
         return grid.length;

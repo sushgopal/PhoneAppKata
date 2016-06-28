@@ -10,6 +10,8 @@ import com.phoneappkata.leastresistancepath.Grid;
 import com.phoneappkata.leastresistancepath.LeastResistancePathFinder;
 import com.phoneappkata.leastresistancepath.ResistancePath;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,7 @@ import static com.phoneappkata.R.string.least_resistance_result;
 
 public class GridInputActivity extends AppCompatActivity {
 
-    private String DELIMITER = " ";
+    private char DELIMITER = ' ';
 
     private int rowCount;
 
@@ -89,18 +91,8 @@ public class GridInputActivity extends AppCompatActivity {
     }
 
     String getLeastResistancePath(ResistancePath result) {
-        return result.getPath()
-                .stream()
-                .map(new Function<Integer, String>() {
-                    @Override
-                    public String apply(Integer n) {
-                        return n.toString();
-                    }
-                })
-                .collect(Collectors.joining(DELIMITER));
+        return StringUtils.join(result.getPath(), DELIMITER);
     }
-
-
 
     String getLeastResistance(ResistancePath result) {
         return Integer.toString(result.getResistance());

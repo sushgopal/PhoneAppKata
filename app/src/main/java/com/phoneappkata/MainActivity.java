@@ -20,15 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        callOnCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView(activity_main);
 
         rowPicker = factory.createRowPicker(this);
         columnPicker = factory.createColumnPicker(this);
-    }
-
-    void callOnCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     public void submitGridSize(View view) {

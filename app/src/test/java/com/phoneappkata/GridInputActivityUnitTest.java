@@ -29,7 +29,7 @@ public class GridInputActivityUnitTest {
 
     @Spy
     GridInputActivity underTest = new GridInputActivity();
-    
+
     private final int resistance = 20;
 
     private final ArrayList<Integer> resistancePath = newArrayList(1, 1);
