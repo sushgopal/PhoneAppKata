@@ -93,7 +93,7 @@ public class LeastResistancePathFinderTest {
     }
 
     @Test
-    public void shoulReturnInstanceOfLeastResistancePath() {
+    public void shoulReturnInstanceOfResistancePath() {
         result = underTest.find();
 
         assertThat(result, isA(ResistancePath.class));
@@ -108,7 +108,7 @@ public class LeastResistancePathFinderTest {
 
     @Test
     public void shouldGetNeighborsForGridRowAndColumn() {
-        runTest();
+        runFindAtTest();
 
         verify(grid).getNeighborRowsFor(rowNumber, columnNumber);
     }
@@ -116,7 +116,7 @@ public class LeastResistancePathFinderTest {
     @Test
     public void shouldReturnCurrentPathIfNoNeighbors() {
         stubGridToReturnNoNeighbors();
-        runTest();
+        runFindAtTest();
 
         assertThat(result, is(currentPath));
     }
@@ -124,7 +124,7 @@ public class LeastResistancePathFinderTest {
     @Test
     public void shouldBuildPathWithNeighbor() {
         stubGridToReturnNeighbors();
-        runTest();
+        runFindAtTest();
 
         verify(currentPath).buildPathWithNeighbor(grid, neighBor1row, neighBorcolumn);
     }
@@ -132,39 +132,39 @@ public class LeastResistancePathFinderTest {
     @Test
     public void shouldFindResistancePathForEveryNeighbor() {
         stubGridToReturnNeighbors();
-        runTest();
+        runFindAtTest();
 
         verify(underTest).findAt(neighBor1row, neighBorcolumn, neighbor1);
         verify(underTest).findAt(neighBor2row, neighBorcolumn, neighbor2);
     }
 
     @Test
-    public void shouldBuildBlockedPathIfNieghborBlocksFlow() {
+    public void shouldBuildBlockedPathIfNeighborBlocksFlow() {
         stubGridToReturnNeighbors();
         stubNeighborToBeBlocking();
 
-        runTest();
+        runFindAtTest();
         verify(currentPath).buildBlockedPath();
     }
 
     @Test
     public void shouldReturnLeastResistanceNeighborPath(){
         stubGridToReturnNeighbors();
-        runTest();
+        runFindAtTest();
 
         assertThat(result, is(neighbor1));
     }
 
     @Test
-    public void shouldReturnLeastResistanceUnBlockedNeighborPathIfPresent(){
+    public void shouldReturnLeastResistanceUnblockedNeighborPathIfPresent(){
         stubGridToReturnNeighbors();
         stubNeighborToBeBlocking();
-        runTest();
+        runFindAtTest();
 
         assertThat(result, is(neighbor2));
     }
 
-    private void runTest() {
+    private void runFindAtTest() {
         result = underTest.findAt(rowNumber, columnNumber, currentPath);
     }
 

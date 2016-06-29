@@ -65,32 +65,32 @@ public class GridTest {
     }
 
     @Test
-    public void shouldReturnNoNeighborsIfColumnIsTheLastOne() {
+    public void shouldReturnNoNeighborsIfColumnIsLast() {
         assertThat(neighborRowsFor(firstRow, lastColumn), is(empty()));
     }
 
     @Test
-    public void shouldContainPreviousRowNumber() {
+    public void shouldAddPreviousRowNumberToNeighbors() {
         assertThat(neighborRowsFor(secondRow, column), hasItem(firstRow));
     }
 
     @Test
-    public void shouldContainFirstRowNumberIfInputRowIsTheLastOne() {
+    public void shouldAddFirstRowNumberToNieghborsIfInputRowIsLast() {
         assertThat(neighborRowsFor(secondRow, column), hasItem(firstRow));
     }
 
     @Test
-    public void shouldContainSameRowNumber() {
+    public void shouldAddSameRowNumberToNeighbors() {
         assertThat(neighborRowsFor(secondRow, column), hasItem(secondRow));
     }
 
     @Test
-    public void shouldContainNextRowNumber() {
+    public void shouldAddNextRowNumberToNeighbors() {
         assertThat(neighborRowsFor(secondRow, column), hasItem(thirdRow));
     }
 
     @Test
-    public void shouldContainLastRowNumberIfInputRowIsTheFirstOne() {
+    public void shouldAddLastRowNumberToNeighborsIfInputRowIsFirst() {
         assertThat(neighborRowsFor(firstRow, column), hasItem(thirdRow));
     }
 

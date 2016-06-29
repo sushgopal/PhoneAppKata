@@ -45,7 +45,7 @@ public class GridBuilderTest {
 
     @Test
     public void shouldHaveExpectedNumberOfColumns() {
-        assertThat(grid.numberOfRows(), is(rows));
+        assertThat(grid.numberOfColumns(), is(columns));
     }
 
     @Test

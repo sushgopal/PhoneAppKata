@@ -20,14 +20,14 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(activity_result);
 
-        setTextToTextView(can_flow, can_flow_result);
-        setTextToTextView(least_resistance, least_resistance_result);
-        setTextToTextView(least_resistance_path, least_resistance_path_result);
+        setTextToView(can_flow, can_flow_result);
+        setTextToView(least_resistance, least_resistance_result);
+        setTextToView(least_resistance_path, least_resistance_path_result);
     }
 
-    private void setTextToTextView(int textViewId, int textResourceId) {
-        TextView t1 = getTextViewFrom(textViewId);
-        t1.setText(getFromIntent(textResourceId));
+    private void setTextToView(int viewId, int textId) {
+        TextView t1 = getTextViewFrom(viewId);
+        t1.setText(getTextFromIntentWith(textId));
         t1.setGravity(CENTER);
     }
 
@@ -35,7 +35,7 @@ public class ResultActivity extends AppCompatActivity {
         return (TextView) findViewById(can_flow);
     }
 
-    private String getFromIntent(int resourceId) {
+    private String getTextFromIntentWith(int resourceId) {
         return getIntent().getStringExtra(getString(resourceId));
     }
 }

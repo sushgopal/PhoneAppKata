@@ -2,8 +2,6 @@ package com.phoneappkata.leastresistancepath;
 
 import android.support.annotation.NonNull;
 
-import com.google.common.collect.Lists;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -19,7 +17,7 @@ public class LeastResistancePathTest {
     private LeastResistancePath underTest;
 
     @Mock
-    private ResistancePath path;
+    private ResistancePath inputPath;
 
     private static String YES = "YES";
 
@@ -29,7 +27,7 @@ public class LeastResistancePathTest {
 
     private String resistanceString = "20";
 
-    private String resistancePath = "1 2 3";
+    private String resistancePathString = "1 2 3";
 
     @Before
     public void setUp() throws Exception {
@@ -38,34 +36,34 @@ public class LeastResistancePathTest {
 
     @Test
     public void shouldReturnYes() {
-        when(path.canFlow()).thenReturn(true);
+        when(inputPath.canFlow()).thenReturn(true);
 
         assertThat(leastResistancePath().canFlow(), is(YES));
     }
 
     @NonNull
     private LeastResistancePath leastResistancePath() {
-        return new LeastResistancePath(path);
+        return new LeastResistancePath(inputPath);
     }
 
     @Test
     public void shouldReturnNo() {
-        when(path.canFlow()).thenReturn(false);
+        when(inputPath.canFlow()).thenReturn(false);
 
         assertThat(leastResistancePath().canFlow(), is(NO));
     }
 
     @Test
     public void shouldReturnResistance() {
-        when(path.getResistance()).thenReturn(resistance);
+        when(inputPath.getResistance()).thenReturn(resistance);
 
         assertThat(leastResistancePath().resistance(), is(resistanceString));
     }
 
     @Test
     public void shouldReturnPath() {
-        when(path.getPath()).thenReturn(newArrayList(1, 2, 3));
+        when(inputPath.getPath()).thenReturn(newArrayList(1, 2, 3));
 
-        assertThat(leastResistancePath().path(), is(resistancePath));
+        assertThat(leastResistancePath().path(), is(resistancePathString));
     }
 }

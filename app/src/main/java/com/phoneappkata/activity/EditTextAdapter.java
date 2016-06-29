@@ -12,7 +12,7 @@ import static java.lang.String.valueOf;
 
 public class EditTextAdapter<Integer> extends BaseAdapter {
 
-    static int GRAVITY = 0x11;
+    static int CENTER_GRAVITY = 0x11;
 
     static int SIGNED_NUMBER_INPUT_TYPE = TYPE_CLASS_NUMBER | TYPE_NUMBER_FLAG_SIGNED;
 
@@ -48,22 +48,24 @@ public class EditTextAdapter<Integer> extends BaseAdapter {
         if(view != null) {
             return view;
         }
+        EditText textView = getNewEditTextView();
+        setTextViewAttributes(position, textView);
 
-        EditText text = getEditText();
+        return textView;
+    }
 
-        text.setText(valueOf(position));
-        text.setInputType(SIGNED_NUMBER_INPUT_TYPE);
-        text.setGravity(GRAVITY);
-        text.setId(position);
-
-        return text;
+    private void setTextViewAttributes(int position, EditText textView) {
+        textView.setText(valueOf(position));
+        textView.setInputType(SIGNED_NUMBER_INPUT_TYPE);
+        textView.setGravity(CENTER_GRAVITY);
+        textView.setId(position);
     }
 
     private EditText getView(int position) {
         return (EditText) gridActivity.findViewById(position);
     }
 
-    EditText getEditText() {
+    EditText getNewEditTextView() {
         return new EditText(gridActivity);
     }
 }

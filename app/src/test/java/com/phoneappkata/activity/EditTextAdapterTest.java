@@ -5,20 +5,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 
-import com.phoneappkata.activity.EditTextAdapter;
-import com.phoneappkata.activity.GridInputActivity;
-
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static com.phoneappkata.activity.EditTextAdapter.GRAVITY;
+import static com.phoneappkata.activity.EditTextAdapter.CENTER_GRAVITY;
 import static com.phoneappkata.activity.EditTextAdapter.SIGNED_NUMBER_INPUT_TYPE;
 import static java.lang.String.valueOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isA;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -49,7 +47,7 @@ public class EditTextAdapterTest {
         initMocks(this);
         underTest = spy(new EditTextAdapter(gridActivity, rowCount, columnCount));
 
-        doReturn(editTextView).when(underTest).getEditText();
+        doReturn(editTextView).when(underTest).getNewEditTextView();
     }
 
     @Test
@@ -92,7 +90,14 @@ public class EditTextAdapterTest {
     public void shouldCreateViewWithGravity() {
         createView();
 
-        verify(editTextView).setGravity(GRAVITY);
+        verify(editTextView).setGravity(CENTER_GRAVITY);
+    }
+
+    @Test
+    public void shouldCreateViewWithId() {
+        createView();
+
+        verify(editTextView).setId(eq(position));
     }
 
     private EditText createView() {

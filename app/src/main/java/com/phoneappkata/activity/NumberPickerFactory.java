@@ -26,8 +26,8 @@ public class NumberPickerFactory {
         return createForId(mainActivity, row_picker, MINIMUM_ROW, MAXIMUM_ROW);
     }
 
-    private NumberPicker createForId(MainActivity mainActivity, int id, int min, int max) {
-        NumberPicker numberPicker = (NumberPicker) mainActivity.findViewById(id);
+    private NumberPicker createForId(MainActivity mainActivity, int viewId, int min, int max) {
+        NumberPicker numberPicker = (NumberPicker) mainActivity.findViewById(viewId);
 
         numberPicker.setValue(min);
         numberPicker.setMinValue(min);
