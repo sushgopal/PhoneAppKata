@@ -116,6 +116,11 @@ public class GridTest {
     }
 
     @Test
+    public void shouldReturnPreviousIndex() {
+        assertThat(underTest.next(secondRow), is(firstRow));
+    }
+
+    @Test
     public void shouldSetValue() {
         underTest.setAt(firstRow, column, resitance);
 

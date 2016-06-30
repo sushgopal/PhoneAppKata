@@ -24,6 +24,7 @@ import static com.phoneappkata.R.string.least_resistance_result;
 
 @RunWith(AndroidJUnit4.class)
 public class GridInputActivityUiTest {
+
     @Rule
     public IntentsTestRule<MainActivity> activityUnderTest = new IntentsTestRule(GridInputActivity.class, true);
 

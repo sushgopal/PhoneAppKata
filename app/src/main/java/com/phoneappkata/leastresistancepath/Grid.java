@@ -50,6 +50,9 @@ public class Grid {
     }
 
     public int valueAt(int row, int column) {
+        if(row == -1 || column == -1) {
+            return 0;
+        }
         return grid[row][column];
     }
 
@@ -98,4 +101,7 @@ public class Grid {
         return numberOfColumns() == (column + 1);
     }
 
+    public int previous(Integer index) {
+        return index -1;
+    }
 }

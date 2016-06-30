@@ -1,12 +1,15 @@
 package com.phoneappkata.leastresistancepath;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 
 public class ResistancePath {
-    private static int MAX_RESISTANCE_TO_FLOW = 50;
+    static int MAX_RESISTANCE_TO_FLOW = 50;
 
     private static boolean CAN_FLOW = true;
 
@@ -16,7 +19,7 @@ public class ResistancePath {
     private List<Integer> path;
     private boolean canFlow;
 
-    private ResistancePath(int resistance, List<Integer> path, boolean canFlow) {
+    ResistancePath(int resistance, List<Integer> path, boolean canFlow) {
         this.resistance = resistance;
         this.path = path;
         this.canFlow = canFlow;
@@ -41,23 +44,18 @@ public class ResistancePath {
     }
 
     public ResistancePath buildPathWithNeighbor(Grid grid, int row, int column) {
-        ImmutableList<Integer> list = ImmutableList.<Integer> builder()
-                                                    .addAll(path)
-                                                    .add(grid.next(row))
-                                                    .build();
+        List<Integer> list = newArrayList();
+        list.add(grid.next(row));
+        list.addAll(path);
 
-        return new ResistancePath(getResistance()+grid.valueAt(row, column), list, CAN_FLOW);
-    }
-
-    public ResistancePath buildBlockedPath() {
-        return new ResistancePath(resistance, path, CANNOT_FLOW);
-    }
-
-    public boolean isNeighborBlockingFlow(Grid grid, int row, int column) {
-        return total(grid.valueAt(row, column)) > MAX_RESISTANCE_TO_FLOW;
+        return new ResistancePath(total(grid.valueAt(row, column)), list, CAN_FLOW);
     }
 
     private int total(int neighborResistance) {
         return resistance + neighborResistance;
+    }
+
+    public boolean isABlockedPath() {
+        return resistance > MAX_RESISTANCE_TO_FLOW;
     }
 }

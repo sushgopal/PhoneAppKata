@@ -1,5 +1,7 @@
 package com.phoneappkata.leastresistancepath;
 
+import com.google.common.collect.Lists;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -29,14 +31,6 @@ public class ResistancePathTest {
     private int resistance = 4;
 
     private int nextRow = 1;
-
-    private int neighborResistance = 10;
-
-    private int largerNeighborResistance = 48;
-
-    private int neighborRow = 0;
-
-    private int neighborColumn = 1;
 
     @Before
     public void setup() {
@@ -73,7 +67,6 @@ public class ResistancePathTest {
         assertThat(underTest.getResistance(), is(resistance));
     }
 
-
     @Test
     public void shouldSetPathWhenBuildingPathWithNeighbor() {
         ResistancePath underTest = getPathWithNeighbor();
@@ -81,52 +74,11 @@ public class ResistancePathTest {
         assertThat(underTest.getPath(), contains(nextRow));
     }
 
-
     @Test
     public void shouldSetCanFlowWhenBuildingPathWithNeighbor() {
         ResistancePath underTest = getPathWithNeighbor();
 
         assertThat(underTest.canFlow(), is(true));
-    }
-
-    @Test
-    public void shouldSetResistanceWhenCreatingBlockedPath() {
-        underTest = getBlockedPath();
-
-        assertThat(underTest.getResistance(), is(resistance));
-    }
-
-
-    @Test
-    public void shouldSetPathWhenCreatingABlockedPath() {
-        underTest = getBlockedPath();
-
-        assertThat(underTest.getPath(), contains(nextRow));
-    }
-
-    @Test
-    public void shouldSetCanFlowToFalseWhenCreatingBlockedPath() {
-        underTest = getBlockedPath();
-
-        assertThat(underTest.canFlow(), is(false));
-    }
-
-    @Test
-    public void shouldReturnTrueIfAddingNeighborResistanceExceedsMaximumToFlow() {
-        underTest = getPathWithNeighbor();
-        stubGridWith(neighborRow, neighborColumn, largerNeighborResistance);
-
-        boolean blockingFlow = underTest.isNeighborBlockingFlow(grid, neighborRow, neighborColumn);
-        assertThat(blockingFlow, is(true));
-    }
-
-    @Test
-    public void shouldReturnFalseIfAddingNeighborResistanceNotExceedsMaximumToFlow() {
-        underTest = getPathWithNeighbor();
-        stubGridWith(neighborRow, neighborColumn, neighborResistance);
-
-        boolean blockingFlow = underTest.isNeighborBlockingFlow(grid, neighborRow, neighborColumn);
-        assertThat(blockingFlow, is(false));
     }
 
     private ResistancePath getPathWithDefaultArgs() {
@@ -136,10 +88,6 @@ public class ResistancePathTest {
     private ResistancePath getPathWithNeighbor() {
         stubGridWith(row, column, resistance);
         return getPathWithDefaultArgs().buildPathWithNeighbor(grid, row, column);
-    }
-
-    private ResistancePath getBlockedPath() {
-        return getPathWithNeighbor().buildBlockedPath();
     }
 
     private void stubGridWith(int row, int column, int resistance) {

@@ -39,15 +39,15 @@ public class LeastResistancePathFinder {
         for (Integer neighborRow : neighborRows) {
             ResistancePath currentNeighborPath;
 
-            if(currentPath.isNeighborBlockingFlow(grid, neighborRow, neighborColumn)) {
-                currentNeighborPath = currentPath.buildBlockedPath();
-            } else {
-                currentNeighborPath = findAt(neighborRow, neighborColumn, getPath(currentPath, neighborRow, neighborColumn));
-            }
-
-            if(shouldUpdateLeastNeighborPath(currentNeighborPath, leastResistanceNeighborPath)) {
-                leastResistanceNeighborPath = currentNeighborPath;
-            }
+//            if(currentPath.isNeighborBlockingFlow(grid, neighborRow, neighborColumn)) {
+//                currentNeighborPath = currentPath.buildBlockedPath();
+//            } else {
+//                currentNeighborPath = findAt(neighborRow, neighborColumn, getPath(currentPath, neighborRow, neighborColumn));
+//            }
+//
+//            if(shouldUpdateLeastNeighborPath(currentNeighborPath, leastResistanceNeighborPath)) {
+//                leastResistanceNeighborPath = currentNeighborPath;
+//            }
         }
 
         return leastResistanceNeighborPath;
