@@ -1,16 +1,14 @@
 package com.phoneappkata.leastresistancepath;
 
-import com.google.common.collect.Lists;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -32,11 +30,14 @@ public class ResistancePathTest {
 
     private int nextRow = 1;
 
+    private int root = -1;
+
     @Before
     public void setup() {
         initMocks(this);
 
         when(grid.next(row)).thenReturn(nextRow);
+        when(grid.isRoot(root, root)).thenReturn(true);
     }
 
     @Test
@@ -61,21 +62,28 @@ public class ResistancePathTest {
     }
 
     @Test
-    public void shouldSetResistanceWhenBuildingPathWithNeighbor() {
+    public void shouldAddNeighborResistanceWhenBuildingPathWithNeighbor() {
         ResistancePath underTest = getPathWithNeighbor();
 
         assertThat(underTest.getResistance(), is(resistance));
     }
 
     @Test
-    public void shouldSetPathWhenBuildingPathWithNeighbor() {
+    public void shouldAddNextRowWhenBuildingPathWithNeighbor() {
         ResistancePath underTest = getPathWithNeighbor();
 
         assertThat(underTest.getPath(), contains(nextRow));
     }
 
     @Test
-    public void shouldSetCanFlowWhenBuildingPathWithNeighbor() {
+    public void shouldNotAddNextRowWhenBuildingPathWithRoot() {
+        ResistancePath underTest = getPathWithDefaultArgs().buildPathWith(grid, root, root);
+
+        assertThat(underTest.getPath(), not(contains(row)));
+    }
+
+    @Test
+    public void shouldSetCanFlowToTrueWhenBuildingPathWithNeighbor() {
         ResistancePath underTest = getPathWithNeighbor();
 
         assertThat(underTest.canFlow(), is(true));
@@ -87,7 +95,7 @@ public class ResistancePathTest {
 
     private ResistancePath getPathWithNeighbor() {
         stubGridWith(row, column, resistance);
-        return getPathWithDefaultArgs().buildPathWithNeighbor(grid, row, column);
+        return getPathWithDefaultArgs().buildPathWith(grid, row, column);
     }
 
     private void stubGridWith(int row, int column, int resistance) {

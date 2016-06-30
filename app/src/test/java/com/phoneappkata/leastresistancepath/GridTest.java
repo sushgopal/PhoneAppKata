@@ -111,13 +111,18 @@ public class GridTest {
     }
 
     @Test
+    public void shouldReturnArrayValueAtRoot() {
+        assertThat(underTest.valueAt(root, root), is(0));
+    }
+
+    @Test
     public void shouldReturnNextIndex() {
         assertThat(underTest.next(secondRow), is(thirdRow));
     }
 
     @Test
     public void shouldReturnPreviousIndex() {
-        assertThat(underTest.next(secondRow), is(firstRow));
+        assertThat(underTest.previous(secondRow), is(firstRow));
     }
 
     @Test
@@ -125,6 +130,16 @@ public class GridTest {
         underTest.setAt(firstRow, column, resitance);
 
         assertThat(underTest.valueAt(firstRow, column), is(resitance));
+    }
+
+    @Test
+    public void shouldReturnTrueIfRowAndColumnAreRoot() {
+        assertThat(underTest.isRoot(root, root), is(true));
+    }
+
+    @Test
+    public void shouldReturnFalseIfRowAndColumnAreNotRoot() {
+        assertThat(underTest.isRoot(firstRow, column), is(false));
     }
 }
 

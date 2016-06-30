@@ -40,7 +40,7 @@ public class Grid {
     }
 
     public Set<Integer> getNeighborRowsFor(int row, int column) {
-        if(isRootRowAndColumn(row, column)) {
+        if(isRoot(row, column)) {
             return getRowIndices();
         }
         if(isLastColumn(column)) {
@@ -73,7 +73,7 @@ public class Grid {
         return create(closedOpen(FIRST_ROW_NUMBER, numberOfRows()), integers());
     }
 
-    private boolean isRootRowAndColumn(int row, int column) {
+    boolean isRoot(int row, int column) {
         return (row == column)  &&(row == ROOT);
     }
 

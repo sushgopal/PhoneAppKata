@@ -55,7 +55,7 @@ public class LeastResistancePathFinderComponentTests {
     }
 
     private void runTestAndAssertWith(Grid grid, int expectedResistance, boolean expectedCanFlow, List<Integer> expectedPath) {
-        ResistancePath leastResistancePath = new LeastResistancePathFinder2(grid).find();
+        ResistancePath leastResistancePath = new LeastResistancePathFinder(grid).find();
 
         assertThat(leastResistancePath.getResistance(), is(expectedResistance));
         assertThat(leastResistancePath.getPath(), is(expectedPath));

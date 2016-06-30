@@ -1,72 +1,98 @@
 package com.phoneappkata.leastresistancepath;
 
+import com.google.common.collect.Iterables;
+
+import java.util.List;
 import java.util.Set;
 
-public class LeastResistancePathFinder {
+import static com.google.common.collect.Lists.newArrayList;
+import static com.phoneappkata.leastresistancepath.ResistancePath.MAX_RESISTANCE_TO_FLOW;
 
+public class LeastResistancePathFinder {
     private Grid grid;
+
+    private VisitedNodes visitedCells = new VisitedNodes();
 
     public LeastResistancePathFinder(Grid grid) {
         this.grid = grid;
     }
 
     public ResistancePath find() {
-        return findAt(grid.getRootRow(), grid.getRootColumn(), getNewPath());
-    }
+        ResistancePath leastResistancePath= findAt(grid.getRootRow(), grid.getRootColumn());
 
-    ResistancePath getNewPath() {
-        return new ResistancePath();
-    }
-
-    ResistancePath findAt(int row, int column, ResistancePath currentPath) {
-        Set<Integer> neighborRows = grid.getNeighborRowsFor(row, column);
-
-        ResistancePath leastResistancePath;
-        if(exists(neighborRows)) {
-            leastResistancePath = findLeastResistanceNeighbor(column, neighborRows, currentPath);
-        }
-        else {
-            leastResistancePath = currentPath;
+        if(leastResistancePath.isABlockedPath()) {
+            return getBlockedResistancePath(leastResistancePath);
         }
 
         return leastResistancePath;
     }
 
-    private ResistancePath findLeastResistanceNeighbor(int column, Set<Integer> neighborRows, ResistancePath currentPath) {
-        ResistancePath leastResistanceNeighborPath = null;
+    ResistancePath findAt(int row, int column) {
+        Set<Integer> neighborRows = grid.getNeighborRowsFor(row, column);
+
+        ResistancePath leastResistancePath;
+        if(exists(neighborRows)) {
+            leastResistancePath = findLeastResistanceNeighbor(row, column, neighborRows);
+        }
+        else {
+            leastResistancePath = getResistancePath(row, column);
+        }
+
+        visitedCells.add(row, column, leastResistancePath);
+        return leastResistancePath;
+    }
+
+    ResistancePath getResistancePath(int row, int column) {
+        return new ResistancePath().buildPathWith(grid, row, column);
+    }
+
+    private ResistancePath findLeastResistanceNeighbor(int row, int column, Set<Integer> neighborRows) {
         int neighborColumn = grid.next(column);
+        ResistancePath leastResistanceNeighborPath = null;
 
         for (Integer neighborRow : neighborRows) {
             ResistancePath currentNeighborPath;
 
-//            if(currentPath.isNeighborBlockingFlow(grid, neighborRow, neighborColumn)) {
-//                currentNeighborPath = currentPath.buildBlockedPath();
-//            } else {
-//                currentNeighborPath = findAt(neighborRow, neighborColumn, getPath(currentPath, neighborRow, neighborColumn));
-//            }
-//
-//            if(shouldUpdateLeastNeighborPath(currentNeighborPath, leastResistanceNeighborPath)) {
-//                leastResistanceNeighborPath = currentNeighborPath;
-//            }
+            if(visitedCells.visited(neighborRow, neighborColumn)) {
+                currentNeighborPath = visitedCells.get(neighborRow, neighborColumn);
+            }
+            else {
+                currentNeighborPath = findAt(neighborRow, neighborColumn);
+            }
+            if (shouldUpdateLeastNeighborPath(currentNeighborPath, leastResistanceNeighborPath)) {
+                leastResistanceNeighborPath = currentNeighborPath;
+            }
         }
 
-        return leastResistanceNeighborPath;
+        return leastResistanceNeighborPath.buildPathWith(grid, row, column);
     }
 
-    private ResistancePath getPath(ResistancePath currentPath, int neighborRow, int neighborColumn) {
-        return currentPath.buildPathWithNeighbor(grid, neighborRow, neighborColumn);
+    private boolean shouldUpdateLeastNeighborPath(ResistancePath currentPath, ResistancePath leastNeighborPath) {
+        return  leastNeighborPath == null || (currentPath.getResistance() < leastNeighborPath.getResistance());
     }
 
-    private boolean shouldUpdateLeastNeighborPath(ResistancePath currentPath, ResistancePath previousPath) {
-        return  previousPath == null || (isCurrentLessThanPreviousResistance(currentPath, previousPath) && currentPath.canFlow());
-    }
+    ResistancePath getBlockedResistancePath(ResistancePath leastResistancePath) {
+        int resistance = 0;
+        int column = 0;
+        List<Integer> path = newArrayList();
 
-    private boolean isCurrentLessThanPreviousResistance(ResistancePath currentPath, ResistancePath previousPath) {
-        return currentPath.getResistance() < previousPath.getResistance();
+        for(Integer row: leastResistancePath.getPath()) {
+            if((resistance + grid.valueAt(row-1, column)) > MAX_RESISTANCE_TO_FLOW) {
+                break;
+            }
+            resistance = resistance + grid.valueAt(row-1, column);
+            path.add(row);
+            column++;
+        }
+
+        return new ResistancePath(resistance, path, false);
     }
 
     private boolean exists(Set<Integer> collection) {
         return !collection.isEmpty();
     }
 
+    public void setVisitedCells(VisitedNodes visitedCells) {
+        this.visitedCells = visitedCells;
+    }
 }

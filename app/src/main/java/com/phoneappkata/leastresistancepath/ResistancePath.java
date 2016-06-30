@@ -1,19 +1,13 @@
 package com.phoneappkata.leastresistancepath;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 
 public class ResistancePath {
     static int MAX_RESISTANCE_TO_FLOW = 50;
 
     private static boolean CAN_FLOW = true;
-
-    private static boolean CANNOT_FLOW = false;
 
     private int resistance;
     private List<Integer> path;
@@ -43,9 +37,11 @@ public class ResistancePath {
         return canFlow;
     }
 
-    public ResistancePath buildPathWithNeighbor(Grid grid, int row, int column) {
+    public ResistancePath buildPathWith(Grid grid, int row, int column) {
         List<Integer> list = newArrayList();
-        list.add(grid.next(row));
+        if(!grid.isRoot(row, column)) {
+            list.add(grid.next(row));
+        }
         list.addAll(path);
 
         return new ResistancePath(total(grid.valueAt(row, column)), list, CAN_FLOW);
