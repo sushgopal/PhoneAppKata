@@ -15,9 +15,9 @@ in 3 lines.
 ## Java 8
 This app requires Java 8 for building the resources
 
-# Device Testing
+## Device Testing
 This Android app was tested on Nexus 6 and 6P using Genymotion Emulator
 
-#Source Code
+## Source Code
 Source code for this app can be accessed from
 https://github.com/sushgopal/PhoneAppKata
