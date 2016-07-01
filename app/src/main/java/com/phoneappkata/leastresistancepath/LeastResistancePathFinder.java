@@ -18,7 +18,7 @@ public class LeastResistancePathFinder {
     }
 
     public ResistancePath find() {
-        ResistancePath leastResistancePath= findAt(grid.getRootRow(), grid.getRootColumn());
+        ResistancePath leastResistancePath = findAt(grid.getRootRow(), grid.getRootColumn());
 
         if(leastResistancePath.isABlockedPath()) {
             return getBlockedResistancePath(leastResistancePath);
@@ -51,14 +51,8 @@ public class LeastResistancePathFinder {
         ResistancePath leastResistanceNeighborPath = null;
 
         for (Integer neighborRow : neighborRows) {
-            ResistancePath currentNeighborPath;
+            ResistancePath currentNeighborPath = getResistancePathForNeighbor(neighborColumn, neighborRow);
 
-            if(visitedCells.visited(neighborRow, neighborColumn)) {
-                currentNeighborPath = visitedCells.get(neighborRow, neighborColumn);
-            }
-            else {
-                currentNeighborPath = findAt(neighborRow, neighborColumn);
-            }
             if (shouldUpdateLeastNeighborPath(currentNeighborPath, leastResistanceNeighborPath)) {
                 leastResistanceNeighborPath = currentNeighborPath;
             }
@@ -67,20 +61,31 @@ public class LeastResistancePathFinder {
         return leastResistanceNeighborPath.buildPathWith(grid, row, column);
     }
 
+    private ResistancePath getResistancePathForNeighbor(int neighborColumn, int neighborRow) {
+        ResistancePath currentNeighborPath;
+        if(visitedCells.visited(neighborRow, neighborColumn)) {
+            currentNeighborPath = visitedCells.get(neighborRow, neighborColumn);
+        }
+        else {
+            currentNeighborPath = findAt(neighborRow, neighborColumn);
+        }
+        return currentNeighborPath;
+    }
+
     private boolean shouldUpdateLeastNeighborPath(ResistancePath currentPath, ResistancePath leastNeighborPath) {
         return  leastNeighborPath == null || (currentPath.getResistance() < leastNeighborPath.getResistance());
     }
 
-    ResistancePath getBlockedResistancePath(ResistancePath leastResistancePath) {
+    private ResistancePath getBlockedResistancePath(ResistancePath leastResistancePath) {
         int resistance = 0;
         int column = 0;
         List<Integer> path = newArrayList();
 
         for(Integer row: leastResistancePath.getPath()) {
-            if((resistance + grid.valueAt(row-1, column)) > MAX_RESISTANCE_TO_FLOW) {
+            if((resistance + grid.valueAt(grid.previous(row), column)) > MAX_RESISTANCE_TO_FLOW) {
                 break;
             }
-            resistance = resistance + grid.valueAt(row-1, column);
+            resistance = resistance + grid.valueAt(grid.previous(row), column);
             path.add(row);
             column++;
         }

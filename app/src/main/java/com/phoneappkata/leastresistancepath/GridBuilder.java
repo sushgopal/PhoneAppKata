@@ -10,7 +10,6 @@ public class GridBuilder {
 
         Grid grid = new Grid(rows, columns);
 
-        //TODO: Recfactor code to use Java 8 lambda
         for(int i=0; i<rows; i++) {
             for(int j=0; j<columns; j++) {
                 Object value = getItem(columns, adapter, i, j);
